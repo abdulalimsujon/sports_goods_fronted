@@ -5,20 +5,27 @@ import {
   deleteToCart,
   increaseToCart,
 } from "../../redux/features/CartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const GoAllProduct = () => {
+    navigate("/allproducts");
+  };
 
   return (
-    <div className="container mx-auto mt-16">
+    <div className="container mx-auto mt-16 ">
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-6 p-4">
+        <div className="col-span-12 p-4 mx-auto">
           <table className="table">
             <thead>
               <tr>
                 <th>Action</th>
                 <th>product</th>
+                <th>Name</th>
                 <th>Calculation</th>
               </tr>
             </thead>
@@ -42,8 +49,12 @@ const Cart = () => {
                       src={item.image}
                       alt={`${item.name}`}
                     ></img>
-                    <h1 className="mt-12 text-black font-bold">{item.name}</h1>
                   </td>
+
+                  <td>
+                    <p>{item.name}</p>
+                  </td>
+
                   <td>
                     <button
                       onClick={() => dispatch(increaseToCart({ id: item.id }))}
@@ -67,9 +78,18 @@ const Cart = () => {
             </tbody>
           </table>
         </div>
-        <div className="col-span-6 bg-gray-300 p-4">
-          <h1>CHECK OUT </h1>
-        </div>
+      </div>
+
+      <div className="flex justify-center space-x-56">
+        <button
+          onClick={GoAllProduct}
+          className="bg-primary text-white py-2 px-4 rounded hover:bg-amber-600"
+        >
+          shop more
+        </button>
+        <button className="bg-primary text-white py-2 px-4 rounded hover:bg-amber-600">
+          Check Out
+        </button>
       </div>
     </div>
   );
