@@ -7,6 +7,10 @@ import Allproducts from "../pages/allProducts";
 import SingleProduct from "../pages/singleProduct";
 import Cart from "../pages/cart";
 
+import Success from "../components/utilities/Success";
+import Cancel from "../components/utilities/Cancel";
+import CheckOut from "../pages/checkOut/CheckOut";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,6 +37,18 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <CheckOut></CheckOut>,
+      },
+      {
+        path: "success",
+        element: <Success />,
+      },
+      {
+        path: "cancel",
+        element: <Cancel></Cancel>,
       },
     ],
   },

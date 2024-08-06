@@ -1,0 +1,13 @@
+
+
+payment gateway integration (stripe)
+
+
+1.install stripe and stripe react
+2.create card element
+3.create stripe account and get publishable key 
+4.use publishable key and stripe to get card information and error
+5.create payment intent post on the server and and return the client secrate 
+6.from the client server get the client secrate and save it 
+7.use confirm card payment and user information ,card and client secrate 
+8.display the transaction id 

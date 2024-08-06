@@ -65,9 +65,14 @@ const SingleProduct = () => {
 
           <button
             onClick={handleCart}
-            className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-amber-600"
+            disabled={stock_quantity <= 0}
+            className={`w-full py-2 px-4 rounded text-white ${
+              stock_quantity > 0
+                ? "bg-primary hover:bg-amber-600"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
           >
-            Add To Cart
+            Add to cart
           </button>
         </div>
       </div>
