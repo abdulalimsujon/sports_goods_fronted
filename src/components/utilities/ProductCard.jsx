@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 
 import { useNavigate } from "react-router-dom";
+import ProductRating from "./ProductRating";
 
 const ProductCard = ({ product }) => {
-  const { name, price, image, _id } = product;
+  const { name, price, image, _id, rating } = product;
   const navigate = useNavigate();
 
   const singlePage = async () => {
@@ -18,6 +19,7 @@ const ProductCard = ({ product }) => {
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
         <p className="font-semibold text-xl">price: ${price}</p>
+        <p>{<ProductRating stars={rating}></ProductRating>}</p>
         <div className="card-actions justify-center">
           <button
             className="btn btn-primary hover:bg-amber-600"

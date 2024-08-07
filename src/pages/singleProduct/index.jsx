@@ -3,6 +3,7 @@ import { useGetSingleProductQuery } from "../../redux/api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addTocart } from "../../redux/features/CartSlice";
+import ProductRating from "../../components/utilities/ProductRating";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -24,6 +25,7 @@ const SingleProduct = () => {
     brand,
     stock_quantity,
     _id,
+    rating,
     image,
   } = p;
 
@@ -53,11 +55,14 @@ const SingleProduct = () => {
           <p className="text-gray-700 mb-2">
             <strong>Brand:</strong> {brand}
           </p>
-          <p className="text-gray-700 mb-2">
+          <p className="text-gray-700 mb-2 ">
             <strong>Stock Quantity:</strong> {stock_quantity}
           </p>
           <div className="flex items-center mb-4">
-            <strong className="mr-2">Rating:</strong>
+            <div className="mr-2 flex justify-center items-center ">
+              <strong className="pr-2">Rating:</strong>{" "}
+              <ProductRating stars={rating}></ProductRating>
+            </div>
           </div>
           <div className="flex items-center mb-4">
             <strong className="mr-2">Price: ${price}</strong>

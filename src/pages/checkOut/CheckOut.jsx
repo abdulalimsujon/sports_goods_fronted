@@ -43,22 +43,19 @@ const CheckOut = () => {
     zipCode: "",
   });
 
-  if (formData.paymentMethod == "cash") {
+  if (formData.paymentMethod === "cash") {
     Swal.fire({
       title: "Do you want to order?",
       showDenyButton: true,
-      denyButtonText: `cancel`,
+      denyButtonText: `Cancel`,
       confirmButtonText: "Order",
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         Swal.fire("Ordered successfully", "", "success");
         dispatch(clearCart());
         navigate("/");
       } else if (result.isDenied) {
-        Swal.fire("Cancel successfully");
-        dispatch(clearCart());
-        navigate("/");
+        Swal.fire("Order cancelled", "", "info");
       }
     });
   }
@@ -71,32 +68,32 @@ const CheckOut = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
     console.log(formData);
   };
 
   return (
-    <div className="container mt-16 mx-auto max-w-[1600px]  ">
-      <div className="grid grid-cols-12  ">
-        <div className="lg:col-span-6 pr-12 md:col-span-12 sm:col-span-12">
+    <div className="container mt-16 mx-auto max-w-[1600px] h-screen px-4">
+      <h1 className="text-2xl font-bold py-5">Checkout</h1>
+      <div className="grid lg:grid-cols-12 md:grid-cols-1 sm:grid-cols-1 gap-4">
+        <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 border p-12 bg-base-200">
           <div className="pt-5">
-            <h3 className="text-xl font-bold mb-4">Contact</h3>
+            <h3 className="text-xl font-bold mb-4">user information</h3>
             <input
               type="text"
               placeholder="Your Name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="input input-bordered  w-full mt-3"
+              className="input input-bordered w-full mt-3"
             />
-            <div className="flex space-x-2">
+            <div className="flex flex-col md:flex-row md:space-x-2">
               <input
                 type="text"
                 placeholder="Email *"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="input input-bordered  w-full mt-3 required"
+                className="input input-bordered w-full mt-3"
               />
               <input
                 type="text"
@@ -104,7 +101,7 @@ const CheckOut = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="input input-bordered  w-full mt-3 required"
+                className="input input-bordered w-full mt-3"
               />
             </div>
 
@@ -116,7 +113,7 @@ const CheckOut = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                className="input input-bordered  w-full mt-3 required"
+                className="input input-bordered w-full mt-3"
               />
               <input
                 type="text"
@@ -124,7 +121,7 @@ const CheckOut = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="input input-bordered  w-full mt-3 required"
+                className="input input-bordered w-full mt-3"
               />
               <input
                 type="text"
@@ -132,16 +129,16 @@ const CheckOut = () => {
                 name="apartment"
                 value={formData.apartment}
                 onChange={handleChange}
-                className="input input-bordered  w-full mt-3 required"
+                className="input input-bordered w-full mt-3"
               />
-              <div className="flex space-x-2">
+              <div className="flex flex-col md:flex-row md:space-x-2">
                 <input
                   type="text"
                   placeholder="City*"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
-                  className="input input-bordered  w-full mt-3 required"
+                  className="input input-bordered w-full mt-3"
                 />
                 <input
                   type="text"
@@ -149,7 +146,7 @@ const CheckOut = () => {
                   name="state"
                   value={formData.state}
                   onChange={handleChange}
-                  className="input input-bordered  w-full mt-3 required"
+                  className="input input-bordered w-full mt-3"
                 />
                 <input
                   type="text"
@@ -157,7 +154,7 @@ const CheckOut = () => {
                   name="zipCode"
                   value={formData.zipCode}
                   onChange={handleChange}
-                  className="input input-bordered  w-full mt-3 required"
+                  className="input input-bordered w-full mt-3"
                 />
               </div>
             </div>
@@ -183,7 +180,6 @@ const CheckOut = () => {
                         onChange={handleChange}
                         className="form-radio"
                       />
-
                       <span className="ml-2">Card Payment</span>
                     </label>
                     <label className="inline-flex items-center ml-6">
@@ -221,10 +217,10 @@ const CheckOut = () => {
           </div>
         </div>
 
-        <div className="   mt-8 lg:col-span-6 pr-12 md:col-span-12 sm:col-span-12">
-          <h3 className="text-xl font-bold text-center">Your shopping</h3>
+        <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 border p-12 ">
+          <h3 className="text-xl font-bold text-center">Your order details</h3>
           <div className="container pt-5 mx-auto">
-            <div className="border  mb-4">
+            <div className="border mb-4">
               {cart?.map((item) => (
                 <div
                   key={item.id}
@@ -254,9 +250,9 @@ const CheckOut = () => {
                 </div>
               ))}
             </div>
-            <div className="border-t pt-4 mt-4 text-right ">
-              <p className="text-xl font-bold ">
-                subTotal + vat 15% : ৳{" "}
+            <div className="border-t pt-4 mt-4 text-right">
+              <p className="text-xl font-bold">
+                Subtotal + VAT 15%: ৳{" "}
                 {(calculateTotal() + calculateTotal() * 0.15).toFixed(2)}
               </p>
             </div>

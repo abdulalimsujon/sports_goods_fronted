@@ -29,7 +29,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mx-auto mt-16 max-w-[1600px]">
+    <div className="container mx-auto mt-16 max-w-[1600px] h-[500px]">
       <div className="grid grid-cols-12 gap-4">
         <div className="lg:col-span-6 p-4 md:col-span-12 sm:col-span-12">
           <table className="table-auto w-full border-collapse p-6 rounded-lg ">
