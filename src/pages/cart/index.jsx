@@ -110,7 +110,7 @@ const Cart = () => {
             <h2 className="text-2xl font-bold mb-4 text-center">Summary</h2>
             <div className="mb-2 flex justify-between">
               <p className="text-lg">Total Price:</p>
-              <p className="text-lg">${calculateTotal()}</p>
+              <p className="text-lg">${calculateTotal().toFixed(2)}</p>
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-lg">VAT (15%):</p>

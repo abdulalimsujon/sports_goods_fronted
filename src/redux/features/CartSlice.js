@@ -47,21 +47,8 @@ const cartSlice = createSlice({
     deleteToCart: (state, action) => {
       state.cart = state.cart.filter((item) => item.id != action.payload.id);
     },
-
-    totalCostInCart: (state) => {
-      let subTotal = 0;
-      state.cart.map((product) => {
-        const total = product.quantity * product.price;
-
-        subTotal = subTotal + total;
-      });
-
-      const vat = subTotal * 0.15;
-
-      return {
-        subTotal,
-        vat,
-      };
+    clearCart: (state) => {
+      state.cart = [];
     },
   },
 });
@@ -71,7 +58,8 @@ export const {
   decreaseToCart,
   increaseToCart,
   deleteToCart,
-  totalCostInCart,
+
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

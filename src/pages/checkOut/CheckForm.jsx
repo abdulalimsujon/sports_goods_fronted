@@ -89,7 +89,7 @@ const CheckForm = ({ formData }) => {
         type="submit"
         disabled={!stripe || !clientSecret}
       >
-        Place Order
+        Pay
       </button>
       {error && <p className="text-red-600 mt-4">{error}</p>}
       {transactionId && (
