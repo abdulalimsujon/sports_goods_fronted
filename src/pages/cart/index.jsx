@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const cart = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,15 +17,19 @@ const Cart = () => {
     navigate("/allproducts");
   };
 
-  const totalPrice = cart.cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const vat = totalPrice * 0.15;
-  const totalWithVat = totalPrice + vat;
+  const calculateSubtotal = (price, quantity) => {
+    return price * quantity;
+  };
+
+  const calculateTotal = () => {
+    return cart?.reduce(
+      (total, item) => total + calculateSubtotal(item.price, item.quantity),
+      0
+    );
+  };
 
   return (
-    <div className="container mx-auto mt-16">
+    <div className="container mx-auto mt-16 max-w-[1600px]">
       <div className="grid grid-cols-12 gap-4">
         <div className="lg:col-span-6 p-4 md:col-span-12 sm:col-span-12">
           <table className="table-auto w-full border-collapse p-6 rounded-lg ">
@@ -38,7 +42,7 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cart?.cart?.map((item, index) => (
+              {cart?.map((item, index) => (
                 <tr key={index} className="bg-white">
                   <td className="border text-center px-12  ">
                     <RiDeleteBin7Line
@@ -106,22 +110,24 @@ const Cart = () => {
             <h2 className="text-2xl font-bold mb-4 text-center">Summary</h2>
             <div className="mb-2 flex justify-between">
               <p className="text-lg">Total Price:</p>
-              <p className="text-lg">${totalPrice.toFixed(2)}</p>
+              <p className="text-lg">${calculateTotal()}</p>
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-lg">VAT (15%):</p>
-              <p className="text-lg">${vat.toFixed(2)}</p>
+              <p className="text-lg">${(calculateTotal() * 0.15).toFixed(2)}</p>
             </div>
             <div className="mb-4 flex justify-between font-bold">
               <p className="text-lg">Total with VAT:</p>
-              <p className="text-lg">${totalWithVat.toFixed(2)}</p>
+              <p className="text-lg">
+                ${(calculateTotal() + calculateTotal() * 0.15).toFixed(2)}
+              </p>
             </div>
             <div className="text-center">
               <button
                 onClick={() => navigate("/checkout")}
-                disabled={cart.cart.length <= 0}
+                disabled={cart.length <= 0}
                 className={`w-full py-2 px-4 rounded text-white ${
-                  cart.cart.length > 0
+                  cart?.length > 0
                     ? "bg-primary hover:bg-amber-600"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}

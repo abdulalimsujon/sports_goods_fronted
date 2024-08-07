@@ -174,7 +174,7 @@ const CheckOut = () => {
                     type="submit"
                     className="w-full bg-primary text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
-                    Complete Checkout
+                    Place Order
                   </button>
                 )}
               </form>
@@ -217,7 +217,8 @@ const CheckOut = () => {
             </div>
             <div className="border-t pt-4 mt-4 text-right ">
               <p className="text-xl font-bold ">
-                subTotal: ৳ {calculateTotal().toFixed(2)}
+                subTotal + vat 15% : ৳{" "}
+                {(calculateTotal() + calculateTotal() * 0.15).toFixed(2)}
               </p>
             </div>
           </div>
