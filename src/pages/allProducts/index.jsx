@@ -1,3 +1,4 @@
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 import ProductCard from "../../components/utilities/ProductCard";
 import { useGetProductsQuery } from "../../redux/api/api";
 
@@ -5,7 +6,7 @@ const Allproducts = () => {
   const { data, isLoading } = useGetProductsQuery();
 
   if (isLoading) {
-    <p>loading..</p>;
+    return <LoaderSpinner></LoaderSpinner>;
   }
 
   const products = data?.data;

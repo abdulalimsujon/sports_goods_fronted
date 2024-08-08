@@ -35,7 +35,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="flex justify-center items-center p-6 mt-20">
+    <div className="flex justify-center items-center   mt-10 ">
       <div className="w-full max-w-md bg-white shadow-md rounded-lg overflow-hidden ">
         <PhotoProvider>
           <PhotoView src={p.image}>

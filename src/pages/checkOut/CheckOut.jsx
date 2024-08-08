@@ -14,11 +14,9 @@ const stripePromise = loadStripe(
 const CheckOut = () => {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const calculateSubtotal = (price, quantity) => {
-    return price * quantity;
-  };
+
+  const calculateSubtotal = (price, quantity) => price * quantity;
 
   const calculateTotal = () => {
     return cart.reduce(
@@ -26,6 +24,7 @@ const CheckOut = () => {
       0
     );
   };
+
   const [formData, setFormData] = useState({
     paymentMethod: "card", // Default payment method is card
     cardName: "",
@@ -72,12 +71,16 @@ const CheckOut = () => {
   };
 
   return (
-    <div className="container mt-16 mx-auto max-w-[1600px] h-screen px-4">
-      <h1 className="text-2xl font-bold py-5">Checkout</h1>
-      <div className="grid lg:grid-cols-12 md:grid-cols-1 sm:grid-cols-1 gap-4">
-        <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 border p-12 bg-base-200">
-          <div className="pt-5">
-            <h3 className="text-xl font-bold mb-4">user information</h3>
+    <div className="container mt-12 mx-auto max-w-[1600px] px-4 sm:px-6 md:px-8">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-5 text-center md:text-left">
+        Checkout
+      </h1>
+      <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1 gap-4">
+        <div className="lg:col-span-6 md:col-span-6 sm:col-span-12 border p-4 sm:p-8 md:p-12 bg-base-200">
+          <div>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4">
+              User Information
+            </h3>
             <input
               type="text"
               placeholder="Your Name"
@@ -106,7 +109,9 @@ const CheckOut = () => {
             </div>
 
             <div className="pt-5">
-              <h3 className="text-xl font-bold mb-4">Delivery Address</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4">
+                Delivery Address
+              </h3>
               <input
                 type="text"
                 placeholder="Country/Region*"
@@ -169,7 +174,9 @@ const CheckOut = () => {
             {placeOrder && (
               <div className="pt-5">
                 <form onSubmit={handleSubmit}>
-                  <h3 className="text-xl font-bold mb-3">Payment Method</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3">
+                    Payment Method
+                  </h3>
                   <div className="mb-4">
                     <label className="inline-flex items-center">
                       <input
@@ -217,8 +224,10 @@ const CheckOut = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-6 md:col-span-12 sm:col-span-12 border p-12 ">
-          <h3 className="text-xl font-bold text-center">Your order details</h3>
+        <div className="lg:col-span-6 md:col-span-6 sm:col-span-12 border p-4 sm:p-8 md:p-12 ">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-center md:text-left">
+            Your Order Details
+          </h3>
           <div className="container pt-5 mx-auto">
             <div className="border mb-4">
               {cart?.map((item) => (
@@ -228,11 +237,7 @@ const CheckOut = () => {
                 >
                   <div className="flex items-center pr-2">
                     <img
-                      style={{
-                        height: "100px",
-                        width: "100px",
-                        marginRight: "15px",
-                      }}
+                      className="h-[50px] w-[50px] sm:h-[80px] sm:w-[80px] md:h-[100px] md:w-[100px] mr-4"
                       src={item.image}
                       alt={`${item.name}`}
                     />
@@ -251,8 +256,12 @@ const CheckOut = () => {
               ))}
             </div>
             <div className="border-t pt-4 mt-4 text-right">
-              <p className="text-xl font-bold">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold">
                 Subtotal + VAT 15%: ৳{" "}
+                {(calculateTotal() + calculateTotal() * 0.15).toFixed(2)}
+              </p>
+              <p className="text-md font-bold">
+                Grand Total: ৳{" "}
                 {(calculateTotal() + calculateTotal() * 0.15).toFixed(2)}
               </p>
             </div>

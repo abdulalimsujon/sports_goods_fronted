@@ -29,43 +29,43 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mx-auto mt-16 max-w-[1600px] h-[500px]">
-      <div className="grid grid-cols-12 gap-4">
-        <div className="lg:col-span-6 p-4 md:col-span-12 sm:col-span-12">
-          <table className="table-auto w-full border-collapse p-6 rounded-lg ">
+    <div className="container mx-auto mt-8 max-w-7xl h-auto mb-64">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="lg:col-span-7 p-4">
+          <table className="table-auto w-full border-collapse rounded-lg ">
             <thead>
               <tr className="bg-gray-200">
-                <th className="border px-4 py-2">Action</th>
-                <th className="border px-4 py-2">Product</th>
-                <th className="border px-4 py-2">Name</th>
-                <th className="border px-4 py-2">Calculation</th>
+                <th className="border px-2 md:px-4 py-2">Action</th>
+                <th className="border px-2 md:px-4 py-2">Product</th>
+                <th className="border px-2 md:px-4 py-2">Name</th>
+                <th className="border px-2 md:px-4 py-2">Calculation</th>
               </tr>
             </thead>
             <tbody>
               {cart?.map((item, index) => (
                 <tr key={index} className="bg-white">
-                  <td className="border text-center px-12  ">
+                  <td className="border text-center px-2 md:px-6 py-2">
                     <RiDeleteBin7Line
-                      size={30}
+                      size={24}
                       onClick={() => dispatch(deleteToCart({ id: item.id }))}
                       className="text-black font-bold cursor-pointer hover:text-red-500"
                     />
                   </td>
-                  <td className="border px-4 py-2">
+                  <td className="border px-2 md:px-4 py-2 text-center">
                     <img
+                      className="mx-auto"
                       style={{
-                        height: "100px",
-                        width: "100px",
-                        marginRight: "5px",
+                        height: "80px",
+                        width: "80px",
                       }}
                       src={item.image}
                       alt={`${item.name}`}
                     />
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className="border px-2 md:px-4 py-2 text-center">
                     <p>{item.name}</p>
                   </td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className="border px-2 md:px-4 py-2 text-center">
                     <div className="flex items-center justify-center space-x-2">
                       <button
                         onClick={() =>
@@ -75,7 +75,7 @@ const Cart = () => {
                       >
                         -
                       </button>
-                      <p className="mx-2">
+                      <p className="mx-2 text-sm md:text-base">
                         {item.price} X {item.quantity} ={" "}
                         {item.price * item.quantity}
                       </p>
@@ -92,12 +92,12 @@ const Cart = () => {
                 </tr>
               ))}
               <tr>
-                <td colSpan="4" className=" py-4">
+                <td colSpan="4" className="py-4">
                   <div
                     onClick={GoAllProduct}
-                    className="text-amber-500 text-2xl flex space-x-1"
+                    className="text-amber-500 text-xl md:text-2xl flex justify-center items-center cursor-pointer space-x-1"
                   >
-                    <FaArrowLeft className="mt-1 mr-1" />
+                    <FaArrowLeft className="mr-1" />
                     <p>Shop More</p>
                   </div>
                 </td>
@@ -105,7 +105,7 @@ const Cart = () => {
             </tbody>
           </table>
         </div>
-        <div className="lg:col-span-6 p-4 md:col-span-12 sm:col-span-12 ">
+        <div className="lg:col-span-5 p-4">
           <div className="border p-6 rounded-lg shadow-lg bg-white">
             <h2 className="text-2xl font-bold mb-4 text-center">Summary</h2>
             <div className="mb-2 flex justify-between">

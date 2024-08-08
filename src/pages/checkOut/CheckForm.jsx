@@ -13,8 +13,6 @@ const CheckForm = ({ formData }) => {
   const { cart } = useSelector((state) => state.cart);
   const totalPrice = cart?.reduce((total, item) => total + item.price, 0);
 
-  console.log("this is form data", formData);
-
   useEffect(() => {
     axios
       .post("http://localhost:5000/api/v1/create-checkout-session", {
@@ -40,7 +38,7 @@ const CheckForm = ({ formData }) => {
       type: "card",
       card: cardElement,
       billing_details: {
-        email: formData.email,
+        email: formData?.email,
       },
     });
 
@@ -64,9 +62,11 @@ const CheckForm = ({ formData }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-lg shadow-md mt-4"
+      className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md mt-4"
     >
-      <h3 className="text-xl font-semibold mb-4">Card Payment</h3>
+      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-4 text-center md:text-left">
+        Card Payment
+      </h3>
       <CardElement
         options={{
           style: {
@@ -82,18 +82,22 @@ const CheckForm = ({ formData }) => {
             },
           },
         }}
-        className="p-3 border rounded-md mb-4"
+        className="p-2 sm:p-3 md:p-4 border rounded-md mb-4"
       />
       <button
-        className="w-full bg-primary text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 hover:bg-primary-dark"
+        className="w-full bg-primary text-white py-2 sm:py-3 md:py-4 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 hover:bg-primary-dark"
         type="submit"
         disabled={!stripe || !clientSecret}
       >
         Pay
       </button>
-      {error && <p className="text-red-600 mt-4">{error}</p>}
+      {error && (
+        <p className="text-red-600 mt-4 text-center md:text-left">{error}</p>
+      )}
       {transactionId && (
-        <p className="text-green-600 mt-4">Transaction ID: {transactionId}</p>
+        <p className="text-green-600 mt-4 text-center md:text-left">
+          Transaction ID: {transactionId}
+        </p>
       )}
     </form>
   );
