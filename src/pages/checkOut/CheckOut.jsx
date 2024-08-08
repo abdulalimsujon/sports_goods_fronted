@@ -71,11 +71,11 @@ const CheckOut = () => {
   };
 
   return (
-    <div className="container mt-12 mx-auto max-w-[1600px] px-4 sm:px-6 md:px-8">
+    <div className="container mt-12 mx-auto max-w-[1620px] px-4 sm:px-6 md:px-8 ">
       <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-5 text-center md:text-left">
         Checkout
       </h1>
-      <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1 gap-4">
+      <div className="grid lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-1 gap-6">
         <div className="lg:col-span-6 md:col-span-6 sm:col-span-12 border p-4 sm:p-8 md:p-12 bg-base-200">
           <div>
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4">
