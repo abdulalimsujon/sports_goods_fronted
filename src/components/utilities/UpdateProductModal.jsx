@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import {
-  useAddProductMutation,
   useGetProductsQuery,
+  useUpdateProductMutation,
 } from "../../redux/api/api";
 import LoaderSpinner from "./LoaderSpinner";
 import Toast from "./Toast";
 
-const CreateProductModal = ({ isOpen, closeModal }) => {
-  const [addProduct, { isLoading, isError, isSuccess }] =
-    useAddProductMutation();
+const UpdateProductModal = ({ isOpen, closeModal, product }) => {
+  const [updateProduct, { isLoading, isError, isSuccess }] =
+    useUpdateProductMutation();
 
   const { refetch } = useGetProductsQuery();
 
@@ -17,17 +17,16 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
   }
 
   if (isError) {
-    return Toast("Product created Failed", "error");
+    return Toast("Product update failed", "error");
   }
   if (isSuccess) {
-    Toast("product Created Successfully", "success");
     closeModal();
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submittedData = {
+    const data = {
       name: e.target.name.value,
       price: parseFloat(e.target.price.value),
       description: e.target.description.value,
@@ -39,7 +38,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
     };
 
     try {
-      await addProduct(submittedData);
+      await updateProduct({ data, id: product._id });
+      Toast("Product updated successfully", "success");
       refetch();
     } catch (error) {
       return Toast(error.message, "error");
@@ -50,9 +50,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
 
   return (
     <dialog open className="modal modal-open">
-      <div className="border-amber-500  modal-box  max-w-[600px]">
-        <div className="relative  border p-8  ">
-          {" "}
+      <div className="border-amber-500 modal-box max-w-[600px]">
+        <div className="relative border p-8">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-5 top-8 text-gray-500 hover:text-amber-500 text-2xl"
             onClick={closeModal}
@@ -60,10 +59,11 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
           >
             ✕
           </button>
-          <h3 className="font-bold  mb-4 text-amber-500 text-center text-2xl">
-            Add New Product
+          <h3 className="font-bold mb-4 text-amber-500 text-center text-2xl">
+            Update Product
           </h3>
           <form onSubmit={handleSubmit}>
+            {/* Form Fields */}
             <div className="mb-3">
               <label
                 htmlFor="name"
@@ -74,7 +74,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
               <input
                 type="text"
                 name="name"
-                className="w-full px-2 py-1 border p-5 rounded-lg "
+                className="w-full px-2 py-1 border p-5 rounded-lg"
                 placeholder="Enter product name"
                 required
               />
@@ -106,7 +106,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 name="description"
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product description"
-                rows="2" // Reduced height
+                rows="2"
               />
             </div>
             <div className="mb-3">
@@ -119,6 +119,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
               <input
                 type="text"
                 name="category"
+                disabled
+                value={product?.category}
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product category"
               />
@@ -133,6 +135,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
               <input
                 type="text"
                 name="brand"
+                disabled
+                value={product.brand}
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product brand"
               />
@@ -149,7 +153,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 name="stockQuantity"
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter stock quantity"
-                step="any" // Allow any decimal precision
+                step="any"
               />
             </div>
             <div className="mb-3">
@@ -163,11 +167,13 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 type="number"
                 id="rating"
                 name="rating"
+                disabled
+                value={product.rating}
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product rating"
-                step="any" // Allow any decimal precision
-                min="0" // Minimum value
-                max="5" // Maximum value
+                step="any"
+                min="0"
+                max="5"
               />
             </div>
             <div className="mb-3">
@@ -188,7 +194,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 type="submit"
                 className="btn bg-amber-500 text-white hover:bg-amber-600"
               >
-                Save Product
+                Update Product
               </button>
             </div>
           </form>
@@ -199,9 +205,20 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
 };
 
 // PropTypes validation
-CreateProductModal.propTypes = {
+UpdateProductModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    description: PropTypes.string,
+    category: PropTypes.string,
+    brand: PropTypes.string,
+    stock_quantity: PropTypes.number,
+    rating: PropTypes.number,
+    image: PropTypes.string,
+  }).isRequired,
 };
 
-export default CreateProductModal;
+export default UpdateProductModal;

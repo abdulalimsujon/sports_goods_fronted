@@ -18,7 +18,41 @@ export const baseApi = createApi({
         };
       },
     }),
+    addProduct: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/create-product",
+          method: "POST",
+          body: { data },
+        };
+      },
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/delete-product/${id}`,
+          method: "DELETE",
+          body: { id },
+        };
+      },
+    }),
+    updateProduct: builder.mutation({
+      query: (options) => {
+        console.log("inside the api", options);
+        return {
+          url: `/update-product/${options.id}`,
+          method: "PATCH",
+          body: options.data,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetSingleProductQuery } = baseApi;
+export const {
+  useGetProductsQuery,
+  useGetSingleProductQuery,
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
+} = baseApi;

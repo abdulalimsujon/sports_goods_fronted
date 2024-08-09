@@ -1,43 +1,78 @@
 import { useState } from "react";
 import LoaderSpinner from "../../components/utilities/LoaderSpinner";
-import { useGetProductsQuery } from "../../redux/api/api";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from "../../redux/api/api";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import CreateProductModal from "../../components/utilities/CreateProductModal";
+import Toast from "../../components/utilities/Toast";
+import UpdateProductModal from "../../components/utilities/UpdateProductModal";
 
 const ManageProduct = () => {
-  const { data: products, isLoading } = useGetProductsQuery();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [deleteProduct, { isLoading: dloader, isError: dError }] =
+    useDeleteProductMutation();
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openCreateModal = () => setIsCreateModalOpen(true);
+  const closeCreateModal = () => setIsCreateModalOpen(false);
 
-  if (isLoading) {
+  const openUpdateModal = (product) => {
+    console.log(product);
+    setSelectedProduct(product);
+    setIsUpdateModalOpen(true);
+  };
+  const closeUpdateModal = () => setIsUpdateModalOpen(false);
+
+  if (isLoading || dloader) {
     return <LoaderSpinner />;
   }
 
-  const handleDelete = (id) => {
-    console.log(id);
-  };
-  const handleUpdate = (id) => {
-    console.log(id);
+  if (isError || dError) {
+    return Toast(isError || dError, "error");
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const data = await deleteProduct(id).unwrap(); // Ensure the deletion completes successfully
+      refetch(); // Trigger a re-fetch of the products
+      console.log(data.success);
+      Toast(data?.message, "success");
+    } catch (error) {
+      Toast("Failed to delete the product", "error");
+    }
   };
 
   return (
     <div className="flex justify-center items-center pt-10 max-w-[1650px] mx-auto pb-10">
       <div className="w-full px-4 sm:px-6 lg:px-4 xl:px-10">
         <div className="relative flex justify-end mb-5 mt-5 group">
-          <span className="p-1 sm:p-5  rounded-md font-bold  ">
+          <span className="p-1 sm:p-5 rounded-md font-bold">
             <button
-              className="btn block w-full px-4  bg-amber-500 text-center cursor-pointer"
-              onClick={openModal} // Trigger modal on click
+              className="btn block w-full px-4 bg-amber-500 text-center cursor-pointer"
+              onClick={openCreateModal} // Trigger create modal on click
             >
               Add
             </button>
-
-            <CreateProductModal isOpen={isModalOpen} closeModal={closeModal} />
           </span>
         </div>
+
+        {/* Create Product Modal */}
+        <CreateProductModal
+          isOpen={isCreateModalOpen}
+          closeModal={closeCreateModal}
+        />
+
+        {/* Update Product Modal */}
+        <UpdateProductModal
+          isOpen={isUpdateModalOpen}
+          closeModal={closeUpdateModal}
+          product={selectedProduct}
+        />
 
         {/* Table Section */}
         <div className="border-slate-50">
@@ -61,7 +96,7 @@ const ManageProduct = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-xs sm:text-sm font-light">
-                {products.data.map((product, index) => (
+                {products?.data.map((product, index) => (
                   <tr
                     key={product.id}
                     className="border-b border-gray-200 hover:bg-gray-100"
@@ -96,13 +131,13 @@ const ManageProduct = () => {
                     </td>
                     <td className="py-3 px-2 sm:px-6 text-center flex justify-center items-center space-x-2">
                       <button
-                        onClick={() => handleUpdate(product.id)}
+                        onClick={() => openUpdateModal(product)}
                         className="text-blue-500 hover:text-blue-700"
                       >
                         <FaEdit size={20} />
                       </button>
                       <button
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => handleDelete(product._id)}
                         className="text-red-500 hover:text-red-700"
                       >
                         <RiDeleteBin7Line size={20} />
