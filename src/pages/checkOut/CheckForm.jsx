@@ -1,7 +1,16 @@
+/* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useDeleteCartProductMutation,
+  useGetProductsQuery,
+} from "../../redux/api/api";
+import { useNavigate } from "react-router-dom";
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
+import Toast from "../../components/utilities/Toast";
+import { clearCart } from "../../redux/features/CartSlice";
 
 const CheckForm = ({ formData }) => {
   const stripe = useStripe();
@@ -12,14 +21,35 @@ const CheckForm = ({ formData }) => {
 
   const { cart } = useSelector((state) => state.cart);
   const totalPrice = cart?.reduce((total, item) => total + item.price, 0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [deleteCartProduct, { isLoading, isError }] =
+    useDeleteCartProductMutation();
+
+  const { refetch } = useGetProductsQuery();
+
+  // Fetching the client secret every time totalPrice changes
   useEffect(() => {
-    axios
-      .post("http://localhost:5000/api/v1/create-checkout-session", {
-        price: totalPrice,
-      })
-      .then((res) => setClientSecret(res.data.clientSecret));
+    if (totalPrice > 0) {
+      axios
+        .post("https://localhost:5000/api/v1/create-checkout-session", {
+          price: totalPrice,
+        })
+        .then((res) => setClientSecret(res.data.clientSecret));
+    }
   }, [totalPrice]);
+
+  if (isLoading) {
+    return <LoaderSpinner />;
+  }
+
+  if (isError) {
+    Toast("Product update failed", "error");
+    return null; // Early return if there's an error
+  }
+
+  const cartIds = cart?.map((item) => item.id);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +86,12 @@ const CheckForm = ({ formData }) => {
       setError(confirmError.message);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setTransactionId(paymentIntent.id);
+
+      await deleteCartProduct({ cartIds });
+      dispatch(clearCart());
+      refetch();
+      navigate("/");
+      Toast("You ordered successfully", "success");
     }
   };
 
@@ -94,9 +130,11 @@ const CheckForm = ({ formData }) => {
       {error && (
         <p className="text-red-600 mt-4 text-center md:text-left">{error}</p>
       )}
+
       {transactionId && (
         <p className="text-green-600 mt-4 text-center md:text-left">
           Transaction ID: {transactionId}
+          {console.log("rrrrr", transactionId)}
         </p>
       )}
     </form>

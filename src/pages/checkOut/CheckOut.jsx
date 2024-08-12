@@ -6,6 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../redux/features/CartSlice";
+import Toast from "../../components/utilities/Toast";
+import {
+  useDeleteCartProductMutation,
+  useGetProductsQuery,
+} from "../../redux/api/api";
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
 const stripePromise = loadStripe(
   "pk_test_51PkE6BP9qFBCtbagbn42WKTsw8mF1wEDTqZMCQtwsNwzT5xh9wAhUZQ8FIXiGf0yfZAzFSuB96h2bQzv8HYkWxZK00VTYfDQJc"
@@ -13,20 +19,22 @@ const stripePromise = loadStripe(
 
 const CheckOut = () => {
   const { cart } = useSelector((state) => state.cart);
+  const { refetch } = useGetProductsQuery();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const calculateSubtotal = (price, quantity) => price * quantity;
-
-  const calculateTotal = () => {
-    return cart.reduce(
-      (total, item) => total + calculateSubtotal(item.price, item.quantity),
-      0
-    );
-  };
+  const [deleteCartProduct, { isLoading, isError }] =
+    useDeleteCartProductMutation();
+  const cartInfo = cart?.map((cart) => {
+    return {
+      name: cart.name,
+      id: cart.id,
+      quantity: cart.quantity,
+    };
+  });
 
   const [formData, setFormData] = useState({
-    paymentMethod: "card", // Default payment method is card
+    paymentMethod: "card",
     cardName: "",
     cardNumber: "",
     expDate: "",
@@ -42,37 +50,59 @@ const CheckOut = () => {
     zipCode: "",
   });
 
-  if (formData.paymentMethod === "cash") {
-    Swal.fire({
+  const [placeOrder, setPlaceOrder] = useState(false);
+
+  const handleOrder = async () => {
+    const result = await Swal.fire({
       title: "Do you want to order?",
       showDenyButton: true,
       denyButtonText: `Cancel`,
       confirmButtonText: "Order",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Ordered successfully", "", "success");
-        dispatch(clearCart());
-        navigate("/");
-      } else if (result.isDenied) {
-        Swal.fire("Order cancelled", "", "info");
-      }
     });
+
+    if (result.isConfirmed) {
+      await deleteCartProduct({ cartInfo });
+      await refetch();
+      dispatch(clearCart());
+      navigate("/");
+      Toast("You ordered successfully", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Order cancelled", "", "info");
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.paymentMethod === "cash") {
+      setPlaceOrder(true);
+      handleOrder();
+    }
+  };
+
+  if (isLoading) {
+    return <LoaderSpinner />;
   }
 
-  const [placeOrder, setPlaceOrder] = useState(false);
+  if (isError) {
+    return Toast("Product update failed", "error");
+  }
+
+  const calculateSubtotal = (price, quantity) => price * quantity;
+
+  const calculateTotal = () => {
+    return cart.reduce(
+      (total, item) => total + calculateSubtotal(item.price, item.quantity),
+      0
+    );
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
-
   return (
-    <div className="container mt-12 mx-auto max-w-[1620px] px-4 sm:px-6 md:px-8 ">
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-5 text-center md:text-left">
+    <div className="container mt-12 mx-auto max-w-[1620px] px-8 sm:px-6 md:px-8 ">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-5 text-center md:text-left ">
         Checkout
       </h1>
       <div className="grid lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-1 gap-6">
@@ -204,10 +234,7 @@ const CheckOut = () => {
 
                   {formData.paymentMethod === "card" && (
                     <Elements stripe={stripePromise}>
-                      <CheckForm
-                        formData={formData}
-                        handleChange={handleChange}
-                      />
+                      <CheckForm />
                     </Elements>
                   )}
                   {formData.paymentMethod === "cash" && (

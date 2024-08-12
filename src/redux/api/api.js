@@ -12,6 +12,7 @@ export const baseApi = createApi({
     }),
     getSingleProduct: builder.query({
       query: (id) => {
+        console.log("from the api", id);
         return {
           url: `/getSingleProduct/${id}`,
           method: "GET",
@@ -19,11 +20,11 @@ export const baseApi = createApi({
       },
     }),
     addProduct: builder.mutation({
-      query: (data) => {
+      query: (formData) => {
         return {
           url: "/create-product",
           method: "POST",
-          body: { data },
+          body: formData,
         };
       },
     }),
@@ -38,11 +39,28 @@ export const baseApi = createApi({
     }),
     updateProduct: builder.mutation({
       query: (options) => {
-        console.log("inside the api", options);
         return {
           url: `/update-product/${options.id}`,
           method: "PATCH",
           body: options.data,
+        };
+      },
+    }),
+    deleteCartProduct: builder.mutation({
+      query: (options) => {
+        console.log("inside the api", options);
+        return {
+          url: `/update-cart-product`,
+          method: "DELETE",
+          body: options,
+        };
+      },
+    }),
+    getProductByName: builder.query({
+      query: (searchTerm) => {
+        return {
+          url: `/get-products?searchTerm=${searchTerm}`,
+          method: "GET",
         };
       },
     }),
@@ -55,4 +73,6 @@ export const {
   useAddProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useDeleteCartProductMutation,
+  useGetProductByNameQuery,
 } = baseApi;

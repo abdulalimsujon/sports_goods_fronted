@@ -7,42 +7,42 @@ import LoaderSpinner from "./LoaderSpinner";
 import Toast from "./Toast";
 
 const CreateProductModal = ({ isOpen, closeModal }) => {
-  const [addProduct, { isLoading, isError, isSuccess }] =
+  const [addProduct, { isLoading, isError, isSuccess, reset }] =
     useAddProductMutation();
+  const { isLoading: isLoadingf, refetch } = useGetProductsQuery();
 
-  const { refetch } = useGetProductsQuery();
-
-  if (isLoading) {
-    return <LoaderSpinner></LoaderSpinner>;
+  if (isLoading || isLoadingf) {
+    return <LoaderSpinner />;
   }
 
   if (isError) {
-    return Toast("Product created Failed", "error");
+    Toast("Product creation failed", "error");
   }
+
   if (isSuccess) {
-    Toast("product Created Successfully", "success");
+    reset();
     closeModal();
+    Toast("Product created successfully", "success");
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submittedData = {
-      name: e.target.name.value,
-      price: parseFloat(e.target.price.value),
-      description: e.target.description.value,
-      category: e.target.category.value,
-      brand: e.target.brand.value,
-      stock_quantity: parseFloat(e.target.stockQuantity.value),
-      rating: parseFloat(e.target.rating.value),
-      image: e.target.image.files[0],
-    };
+    const formData = new FormData();
+    formData.append("name", e.target.name.value);
+    formData.append("price", parseFloat(e.target.price.value));
+    formData.append("description", e.target.description.value);
+    formData.append("category", e.target.category.value);
+    formData.append("brand", e.target.brand.value);
+    formData.append("stock_quantity", parseFloat(e.target.stockQuantity.value));
+    formData.append("rating", parseFloat(e.target.rating.value));
+    formData.append("image", e.target.image.files[0]);
 
     try {
-      await addProduct(submittedData);
+      await addProduct(formData).unwrap();
       refetch();
     } catch (error) {
-      return Toast(error.message, "error");
+      Toast(error.message, "error");
     }
   };
 
@@ -50,9 +50,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
 
   return (
     <dialog open className="modal modal-open">
-      <div className="border-amber-500  modal-box  max-w-[600px]">
-        <div className="relative  border p-8  ">
-          {" "}
+      <div className="border-amber-500 modal-box max-w-[600px]">
+        <div className="relative border p-8">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-5 top-8 text-gray-500 hover:text-amber-500 text-2xl"
             onClick={closeModal}
@@ -60,7 +59,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
           >
             ✕
           </button>
-          <h3 className="font-bold  mb-4 text-amber-500 text-center text-2xl">
+          <h3 className="font-bold mb-4 text-amber-500 text-center text-2xl">
             Add New Product
           </h3>
           <form onSubmit={handleSubmit}>
@@ -74,7 +73,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
               <input
                 type="text"
                 name="name"
-                className="w-full px-2 py-1 border p-5 rounded-lg "
+                className="w-full px-2 py-1 border p-5 rounded-lg"
                 placeholder="Enter product name"
                 required
               />
@@ -106,7 +105,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 name="description"
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product description"
-                rows="2" // Reduced height
+                rows="2"
               />
             </div>
             <div className="mb-3">
@@ -149,7 +148,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 name="stockQuantity"
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter stock quantity"
-                step="any" // Allow any decimal precision
+                step="any"
               />
             </div>
             <div className="mb-3">
@@ -165,9 +164,9 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 name="rating"
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product rating"
-                step="any" // Allow any decimal precision
-                min="0" // Minimum value
-                max="5" // Maximum value
+                step="any"
+                min="0"
+                max="5"
               />
             </div>
             <div className="mb-3">

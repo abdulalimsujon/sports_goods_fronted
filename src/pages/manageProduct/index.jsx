@@ -9,6 +9,7 @@ import { RiDeleteBin7Line } from "react-icons/ri";
 import CreateProductModal from "../../components/utilities/CreateProductModal";
 import Toast from "../../components/utilities/Toast";
 import UpdateProductModal from "../../components/utilities/UpdateProductModal";
+import Swal from "sweetalert2";
 
 const ManageProduct = () => {
   const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
@@ -36,19 +37,30 @@ const ManageProduct = () => {
     return Toast(isError || dError, "error");
   }
 
-  const handleDelete = async (id) => {
-    try {
-      const data = await deleteProduct(id).unwrap(); // Ensure the deletion completes successfully
-      refetch(); // Trigger a re-fetch of the products
-      console.log(data.success);
-      Toast(data?.message, "success");
-    } catch (error) {
-      Toast("Failed to delete the product", "error");
-    }
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const data = await deleteProduct(id).unwrap(); // Ensure the deletion completes successfully
+          refetch();
+          console.log(data.success);
+          Toast(data?.message, "success");
+        } catch (error) {
+          Toast("Failed to delete the product", "error");
+        }
+      }
+    });
   };
 
   return (
-    <div className="flex justify-center items-center pt-10 max-w-[1650px] mx-auto pb-10">
+    <div className="flex justify-center items-center pt-5 max-w-[1650px] mx-auto pb-10">
       <div className="w-full px-4 sm:px-6 lg:px-4 xl:px-10">
         <div className="relative flex justify-end mb-5 mt-5 group">
           <span className="p-1 sm:p-5 rounded-md font-bold">
@@ -147,11 +159,11 @@ const ManageProduct = () => {
                 ))}
               </tbody>
 
-              <tfoot>
+              {/* <tfoot>
                 <tr className="bg-gray-200 text-gray-700 uppercase text-xs sm:text-sm leading-normal">
                   <td colSpan="9" className="py-3 px-2 sm:px-6 text-center">
                     {/* Page Numbers (Static from 1 to 10) */}
-                    <div className="flex justify-center items-center space-x-2">
+              {/* <div className="flex justify-center items-center space-x-2">
                       {[...Array(10).keys()].map((page) => (
                         <button
                           key={page}
@@ -160,10 +172,10 @@ const ManageProduct = () => {
                           {page + 1}
                         </button>
                       ))}
-                    </div>
-                  </td>
+                    </div> */}
+              {/* </td>
                 </tr>
-              </tfoot>
+              </tfoot>  */}
             </table>
           </div>
         </div>

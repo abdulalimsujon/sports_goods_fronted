@@ -1,22 +1,31 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CgShoppingCart } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleSearchTerm = (e) => {
+    e.preventDefault();
+    const searchTerm = e.target.product.value.trim();
+    navigate(`/get-products?searchTerm=${searchTerm}`);
   };
 
   const activeLinkStyle = "text-yellow-300";
   const linkStyle = "p-4 lg:p-0 hover:text-slate-500";
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 ">
       <header className="h-20 w-full bg-amber-500 fixed z-[999] text-xl">
         <nav className="h-full max-w-[1620px] px-[20px] mx-auto flex justify-between items-center">
           <span className="text-2xl text-white">Sujon Sports Club</span>
@@ -25,6 +34,21 @@ const Navbar = () => {
               {menuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
+          <form onSubmit={handleSearchTerm} className="flex items-center">
+            <input
+              type="text"
+              name="product"
+              placeholder="Find Sports Equipment "
+              className=" p-3 w-80 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-slate-300 border-0  p-3 focus:outline-none focus:ring-0"
+            >
+              <CiSearch size={30} />
+            </button>
+          </form>
+
           <ul
             className={`${
               menuOpen ? "flex" : "hidden"
@@ -39,7 +63,7 @@ const Navbar = () => {
               Home
             </NavLink>
             <NavLink
-              to="/allproducts"
+              to="/get-products"
               className={({ isActive }) =>
                 `${linkStyle} ${isActive ? activeLinkStyle : ""}`
               }
@@ -70,7 +94,7 @@ const Navbar = () => {
             >
               <strong className="relative flex items-center">
                 <CgShoppingCart size={30} className="text-bold text-2xl" />
-                <div className="absolute top-[-10px] right-[-10px] bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                <div className="absolute top-[-10px] right-[10px] bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
                   {cart.cart.length}
                 </div>
               </strong>

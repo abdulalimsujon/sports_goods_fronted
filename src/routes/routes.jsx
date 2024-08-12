@@ -46,6 +46,10 @@ const router = createBrowserRouter([
         path: "manageProducts",
         element: <ManageProduct></ManageProduct>,
       },
+      {
+        path: "get-products",
+        element: <Allproducts />,
+      },
     ],
   },
 ]);
