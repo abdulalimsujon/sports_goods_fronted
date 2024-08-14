@@ -1,18 +1,28 @@
 import { useState } from "react";
+import { useGetProductWithPriceQuery } from "../../redux/api/api";
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
+import Toast from "../../components/utilities/Toast";
 
 const RangeSlider = () => {
   // Initialize the state for the range value
-  const [value, setValue] = useState(40);
+  const [value, setValue] = useState(0);
+
+  const { data, isLoading, isError } = useGetProductWithPriceQuery(value);
+  if (isLoading) {
+    return <LoaderSpinner></LoaderSpinner>;
+  }
+  if (isError) {
+    return Toast("something went wrong", "error");
+  }
 
   // Handle the change event
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setValue(Number(event.target.value));
   };
-
   return (
-    <div className=" w-48">
+    <div className="w-full">
       <div className="">
-        <p>Value: {value}</p>
+        <p>Price: {value}</p>
       </div>
       <input
         type="range"

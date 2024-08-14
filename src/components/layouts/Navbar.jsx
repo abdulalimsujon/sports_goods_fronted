@@ -25,9 +25,9 @@ const Navbar = () => {
   const linkStyle = "p-4 lg:p-0 hover:text-slate-500";
 
   return (
-    <div className="pb-16 ">
+    <div className="pb-16">
       <header className="h-20 w-full bg-amber-500 fixed z-[999] text-xl">
-        <nav className="h-full max-w-[1620px] px-[20px] mx-auto flex justify-between items-center">
+        <nav className="h-full max-w-[1620px] px-[20px] mx-auto flex items-center justify-between">
           <span className="text-2xl text-white">Sujon Sports Club</span>
           <div className="lg:hidden">
             <button onClick={toggleMenu} className="text-white text-3xl">
@@ -38,12 +38,12 @@ const Navbar = () => {
             <input
               type="text"
               name="product"
-              placeholder="Find Sports Equipment "
-              className=" p-3 w-80 focus:outline-none"
+              placeholder="Find Sports Equipment"
+              className="p-3 w-80 focus:outline-none"
             />
             <button
               type="submit"
-              className="bg-slate-300 border-0  p-3 focus:outline-none focus:ring-0"
+              className="bg-slate-300 border-0 p-3 focus:outline-none focus:ring-0"
             >
               <CiSearch size={30} />
             </button>
@@ -52,7 +52,7 @@ const Navbar = () => {
           <ul
             className={`${
               menuOpen ? "flex" : "hidden"
-            } flex-col lg:flex lg:flex-row lg:space-x-5 text-white font-bold absolute lg:static top-20 left-0 w-full lg:w-auto bg-amber-500 lg:bg-transparent z-[998]`}
+            } flex-col lg:flex lg:flex-row lg:space-x-5 text-white font-bold absolute lg:static top-20 left-0 w-full lg:w-auto bg-amber-500 lg:bg-transparent z-[998] items-center justify-center`}
           >
             <NavLink
               to="/"
@@ -76,7 +76,7 @@ const Navbar = () => {
                 `${linkStyle} ${isActive ? activeLinkStyle : ""}`
               }
             >
-              Manage products
+              Manage Products
             </NavLink>
             <NavLink
               to="/about"

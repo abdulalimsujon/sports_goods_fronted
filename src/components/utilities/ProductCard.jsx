@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
   const singlePage = async () => {
     navigate(`/getSingleProduct/${_id}`);
   };
-
+  console.log(product);
   return (
     <div className="card card-compact bg-base-100 max-w-96 shadow-xl">
       <figure>

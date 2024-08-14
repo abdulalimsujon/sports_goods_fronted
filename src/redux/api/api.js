@@ -58,24 +58,26 @@ export const baseApi = createApi({
     }),
     getProductBySearch: builder.query({
       query: (searchTerm) => {
+        console.log("searchTerm", searchTerm);
         return {
           url: `/get-products?searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
     }),
-    getFieldBySearch: builder.query({
-      query: (fields) => {
+    // getFieldBySearch: builder.query({
+    //   query: (fields) => {
+    //     return {
+    //       url: `/get-products?fields=${fields}`,
+    //       method: "GET",
+    //     };
+    //   },
+    // }),
+
+    getProductWithPrice: builder.query({
+      query: (price) => {
         return {
-          url: `/get-products?fields=${fields}`,
-          method: "GET",
-        };
-      },
-    }),
-    getCategoryProduct: builder.query({
-      query: (category) => {
-        return {
-          url: `/get-products/${category}`,
+          url: `/get-products?price=${price}`,
           method: "GET",
         };
       },
@@ -91,6 +93,6 @@ export const {
   useUpdateProductMutation,
   useDeleteCartProductMutation,
   useGetProductBySearchQuery,
-  useGetFieldBySearchQuery,
-  useGetCategoryProductQuery,
+  // useGetFieldBySearchQuery,
+  useGetProductWithPriceQuery,
 } = baseApi;

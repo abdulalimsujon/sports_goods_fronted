@@ -8,3 +8,22 @@ export const categories = [
   "Running",
   "Hiking",
 ];
+export const Brands = [
+  "Spalding",
+  "Adidas",
+  "Wilson",
+  "Nike",
+  "Callaway",
+  "Manduka",
+  "Osprey",
+  "Everlast",
+  "Penn",
+  "Garmin",
+  "Titleist",
+  "Gaiam",
+  "Columbia",
+  "Ringside",
+  "Puma",
+  "Babolat",
+  "Under Armour",
+];
