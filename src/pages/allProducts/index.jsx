@@ -3,7 +3,10 @@ import ProductCard from "../../components/utilities/ProductCard";
 import { useLocation } from "react-router-dom";
 import RangeSlider from "../allProducts/RangeSlider";
 
-import { useGetProductBySearchQuery } from "../../redux/api/api";
+import {
+  useGetProductBySearchQuery,
+  useGetProductWithPriceQuery,
+} from "../../redux/api/api";
 import Toast from "../../components/utilities/Toast";
 import Accordian from "../../components/utilities/Accordian";
 import { Brands, categories } from "./product.const";
@@ -11,22 +14,28 @@ import { Brands, categories } from "./product.const";
 const Allproducts = () => {
   const queryParams = new URLSearchParams(useLocation().search);
   const searchTerm = queryParams.get("searchTerm") || "";
+  const price = queryParams.get("price") || "";
 
-  console.log("Search Term:", searchTerm);
+  //get the product using price as query
 
-  // Get data as search from the search button in nav
+  const {
+    data: priceData,
+    isLoading: priceLoading,
+    isError: priceError,
+  } = useGetProductWithPriceQuery(price);
+
+  // Get data as search from the search button in nav,category product ,brand product
   const {
     data: productData,
     isLoading,
-    error,
+    isError,
   } = useGetProductBySearchQuery(searchTerm);
 
-  if (isLoading) {
-    return <LoaderSpinner />;
+  if (isLoading || priceLoading) {
+    return <LoaderSpinner></LoaderSpinner>;
   }
-
-  if (error) {
-    return Toast("Cannot get data !!", "error");
+  if (isError || priceError) {
+    return Toast("something went wrong", "error");
   }
 
   let products;
@@ -34,9 +43,13 @@ const Allproducts = () => {
   if (searchTerm) {
     products = productData?.data;
   }
+  if (price) {
+    products = priceData?.data;
+    console.log(products);
+  }
 
   return (
-    <div className="h-screen max-w-[1580px] mx-auto mt-10">
+    <div className="h-auto max-w-[1580px] mx-auto mt-10">
       <div className="container max-w-[1580px]">
         <div className="flex flex-wrap lg:flex-nowrap gap-4">
           {/* Sidebar for large screens */}
@@ -48,7 +61,7 @@ const Allproducts = () => {
 
           {/* Product Grid for large screens */}
           <div className="lg:w-3/4 w-full">
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-2">
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-2 max-w-[1600px]">
               {products?.length > 0 ? (
                 products.map((product) => (
                   <ProductCard key={product._id} product={product} />
