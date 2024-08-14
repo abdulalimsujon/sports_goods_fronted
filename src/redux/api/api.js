@@ -82,6 +82,21 @@ export const baseApi = createApi({
         };
       },
     }),
+    getFilterProducts: builder.query({
+      query: ({ category, brand, price }) => {
+        // Construct the query string based on available parameters
+        const queryString = new URLSearchParams({
+          category: category || "",
+          brand: brand || "",
+          price: price || "",
+        }).toString();
+
+        return {
+          url: `/get-products?${queryString}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -93,6 +108,7 @@ export const {
   useUpdateProductMutation,
   useDeleteCartProductMutation,
   useGetProductBySearchQuery,
+  useGetFilterProductsQuery,
   // useGetFieldBySearchQuery,
   useGetProductWithPriceQuery,
 } = baseApi;

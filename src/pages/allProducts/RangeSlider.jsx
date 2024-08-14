@@ -1,20 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import { useGetProductWithPriceQuery } from "../../redux/api/api";
-// import LoaderSpinner from "../../components/utilities/LoaderSpinner";
-// import Toast from "../../components/utilities/Toast";
+import { useDispatch } from "react-redux";
+import { AddToQuery } from "../../redux/features/QuerySlice";
 
 const RangeSlider = () => {
   const [value, setValue] = useState(0);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Handle the change event
   const handleChange = (event) => {
     const newValue = Number(event.target.value);
     setValue(newValue);
-
-    // Navigate to the endpoint with the new price value
-    navigate(`/get-products?price=${newValue}`);
+    dispatch(dispatch(AddToQuery({ price: newValue })));
   };
 
   return (

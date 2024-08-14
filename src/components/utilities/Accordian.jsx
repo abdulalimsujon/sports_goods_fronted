@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { AddToQuery } from "../../redux/features/QuerySlice";
+import { useDispatch } from "react-redux";
 
-const Accordian = ({ title, contents }) => {
+const Accordion = ({ title, contents }) => {
   const [isOpen, setIsOpen] = useState(false);
   const accordionRef = useRef(null);
+  const dispatch = useDispatch();
 
   const handleClickOutside = (event) => {
     if (accordionRef.current && !accordionRef.current.contains(event.target)) {
@@ -38,16 +40,20 @@ const Accordian = ({ title, contents }) => {
       </div>
       {isOpen && (
         <div className="collapse-content mt-2 space-y-2">
-          {contents?.map((c, id) => (
-            <NavLink
-              to={`/get-products?searchTerm=${c}`}
-              key={id}
-              className="block px-4 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => setIsOpen(false)} // Optionally close the accordion when an item is clicked
-            >
-              {c}
-            </NavLink>
-          ))}
+          <ul>
+            {contents?.map((c, id) => (
+              <li
+                key={id}
+                className="block px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                onClick={() => {
+                  dispatch(AddToQuery({ [title]: c })); // Pass title as key and category as value
+                  setIsOpen(false); // Optionally close the accordion
+                }}
+              >
+                {c}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -55,9 +61,9 @@ const Accordian = ({ title, contents }) => {
 };
 
 // PropTypes validation
-Accordian.propTypes = {
+Accordion.propTypes = {
   title: PropTypes.string.isRequired,
-  contents: PropTypes.arrayOf(PropTypes.string).isRequired, // Corrected prop name
+  contents: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default Accordian;
+export default Accordion;
