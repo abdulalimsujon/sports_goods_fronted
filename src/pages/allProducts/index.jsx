@@ -62,8 +62,8 @@ const Allproducts = () => {
           {/* Product Grid for large screens */}
           <div className="lg:w-3/4 w-full">
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-2 max-w-[1600px]">
-              {products?.length > 0 ? (
-                products.map((product) => (
+              {products?.result?.length > 0 ? (
+                products.result.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (

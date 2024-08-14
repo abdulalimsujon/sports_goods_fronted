@@ -7,8 +7,8 @@ const LatestProducts = () => {
   if (isLoading) {
     <p>loading..</p>;
   }
-
-  const products = data?.data;
+  console.log(data?.data);
+  const products = data?.data?.result;
 
   return (
     <div>
