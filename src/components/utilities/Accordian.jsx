@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { AddToQuery } from "../../redux/features/QuerySlice";
 import { useDispatch } from "react-redux";
+import { setCategory } from "../../redux/features/filterSlice";
 
 const Accordion = ({ title, contents }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +20,13 @@ const Accordion = ({ title, contents }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleItemClick = (item) => {
+    // Map title to the expected key in Redux state (e.g., 'brand', 'category', 'price')
+
+    dispatch(setCategory(item));
+    setIsOpen(false); // Optionally close the accordion
+  };
 
   return (
     <div
@@ -45,10 +52,7 @@ const Accordion = ({ title, contents }) => {
               <li
                 key={id}
                 className="block px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => {
-                  dispatch(AddToQuery({ [title]: c })); // Pass title as key and category as value
-                  setIsOpen(false); // Optionally close the accordion
-                }}
+                onClick={() => handleItemClick(c)}
               >
                 {c}
               </li>

@@ -2,11 +2,24 @@ import RangeSlider from "../allProducts/RangeSlider";
 import Accordian from "../../components/utilities/Accordian";
 import { Brands, categories } from "./product.const";
 import { useSelector } from "react-redux";
+import { useGetFilterProductsQuery } from "../../redux/api/api";
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
 const Allproducts = () => {
-  const fields = useSelector((state) => state.query);
+  const category = useSelector((state) => state.filters.category);
+  const price = useSelector((state) => state.filters.price);
 
-  console.log(fields);
+  console.log(price, category);
+  const { data, error, isLoading } = useGetFilterProductsQuery({
+    price,
+    category,
+  });
+
+  if (isLoading) {
+    return <LoaderSpinner></LoaderSpinner>;
+  }
+
+  console.log("data is here", data);
 
   return (
     <div className="h-auto max-w-[1580px] mx-auto mt-10">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { AddToQuery } from "../../redux/features/QuerySlice";
+import { setPrice } from "../../redux/features/filterSlice";
 
 const RangeSlider = () => {
   const [value, setValue] = useState(0);
@@ -10,7 +10,7 @@ const RangeSlider = () => {
   const handleChange = (event) => {
     const newValue = Number(event.target.value);
     setValue(newValue);
-    dispatch(dispatch(AddToQuery({ price: newValue })));
+    dispatch(dispatch(setPrice(value)));
   };
 
   return (

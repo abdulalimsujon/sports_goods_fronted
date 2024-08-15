@@ -83,16 +83,20 @@ export const baseApi = createApi({
       },
     }),
     getFilterProducts: builder.query({
-      query: ({ category, brand, price }) => {
-        // Construct the query string based on available parameters
-        const queryString = new URLSearchParams({
-          category: category || "",
-          brand: brand || "",
-          price: price || "",
-        }).toString();
+      query: ({ category, price }) => {
+        // Create a new URLSearchParams object
+        const params = new URLSearchParams();
+
+        // Conditionally append query parameters if they are provided
+        if (category) {
+          params.append("category", category);
+        }
+        if (price) {
+          params.append("price", price);
+        }
 
         return {
-          url: `/get-products?${queryString}`,
+          url: `/get-products?${params.toString()}`, // Construct the URL with the query string
           method: "GET",
         };
       },
