@@ -102,6 +102,15 @@ export const baseApi = createApi({
         };
       },
     }),
+    clearFilters: builder.query({
+      query: (clearFilter) => {
+        console.log("inde", clearFilter);
+        return {
+          url: `/get-products?$clearFilter={clearFilter}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -115,5 +124,6 @@ export const {
   useGetProductBySearchQuery,
   useGetFilterProductsQuery,
   // useGetFieldBySearchQuery,
+  useClearFiltersQuery,
   useGetProductWithPriceQuery,
 } = baseApi;

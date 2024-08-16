@@ -1,12 +1,14 @@
 import RangeSlider from "../allProducts/RangeSlider";
 import { Brands, categories } from "./product.const";
 import { useSelector } from "react-redux";
-import { useGetFilterProductsQuery } from "../../redux/api/api";
+import {
+  useClearFiltersQuery,
+  useGetFilterProductsQuery,
+} from "../../redux/api/api";
 import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 import { Toast } from "../../components/utilities/Toast";
 import ProductCard from "../../components/utilities/ProductCard";
 import ReusableAccordian from "../../components/utilities/ReusableAccordian";
-import { useSearchParams } from "react-router-dom";
 import {
   setBrand,
   setCategory,
@@ -15,13 +17,11 @@ import {
 import ReusableRangeSlider from "../../components/utilities/ReusableRangeSlider";
 
 const Allproducts = () => {
-  const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("searchTerm");
-
   const category = useSelector((state) => state.filters.category);
   const price = useSelector((state) => state.filters.price);
   const brand = useSelector((state) => state.filters.brand);
   const rating = useSelector((state) => state.filters.rating);
+  const searchTerm = useSelector((state) => state.filters.searchTerm);
 
   const { data, error, isLoading } = useGetFilterProductsQuery({
     price,
@@ -30,13 +30,20 @@ const Allproducts = () => {
     rating,
     searchTerm,
   });
+  const clearFilter = {};
+  const { data: allData, isLoading: allDataLoading } =
+    useClearFiltersQuery(clearFilter);
 
-  if (isLoading) {
+  if (isLoading || allDataLoading) {
     return <LoaderSpinner></LoaderSpinner>;
   }
   if (error) {
-    Toast("cannot get data", "error");
+    Toast("something went wrong", "error");
   }
+
+  const handleReset = () => {
+    console.log(allData);
+  };
 
   return (
     <div className="h-auto max-w-[1580px] mx-auto mt-10">
@@ -61,6 +68,12 @@ const Allproducts = () => {
               setElement={setRating}
             ></ReusableRangeSlider>
             <RangeSlider></RangeSlider>
+            <button
+              onClick={handleReset}
+              className="btn bg-slate-200 hover:bg-amber-500 w-full mt-2"
+            >
+              Reset Filters
+            </button>
           </div>
 
           {/* Product Grid for large screens */}
