@@ -57,7 +57,6 @@ export const baseApi = createApi({
     }),
     getProductBySearch: builder.query({
       query: (searchTerm) => {
-        console.log("searchTerm", searchTerm);
         return {
           url: `/get-products?searchTerm=${searchTerm}`,
           method: "GET",
@@ -74,11 +73,11 @@ export const baseApi = createApi({
       },
     }),
     getFilterProducts: builder.query({
-      query: ({ category, price, brand, rating, searchTerm }) => {
+      query: ({ category, price, brand, rating, searchTerm, sort }) => {
         // Create a new URLSearchParams object
         const params = new URLSearchParams();
 
-        console.log("insided the api", category, price, brand, searchTerm);
+        //  console.log("insided the api", category, price, brand, searchTerm);
         // Conditionally append query parameters if they are provided
         if (category) {
           params.append("category", category);
@@ -95,18 +94,12 @@ export const baseApi = createApi({
         if (searchTerm) {
           params.append("searchTerm", searchTerm);
         }
+        if (sort) {
+          params.append("sort", sort);
+        }
 
         return {
           url: `/get-products?${params.toString()}`, // Construct the URL with the query string
-          method: "GET",
-        };
-      },
-    }),
-    clearFilters: builder.query({
-      query: (clearFilter) => {
-        console.log("inde", clearFilter);
-        return {
-          url: `/get-products?$clearFilter={clearFilter}`,
           method: "GET",
         };
       },

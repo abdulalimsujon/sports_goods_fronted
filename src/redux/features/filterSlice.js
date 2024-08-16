@@ -6,6 +6,7 @@ const initialState = {
   brand: null,
   rating: null,
   searchTerm: null,
+  sort: null,
 };
 
 const filterSlice = createSlice({
@@ -27,12 +28,16 @@ const filterSlice = createSlice({
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
     },
+    setSort: (state, action) => {
+      state.sort = action.payload;
+    },
     clearAllFilters: (state) => {
       state.category = null;
       state.price = null;
       state.brand = null;
       state.rating = null;
       state.searchTerm = null;
+      state.sort = null;
     },
   },
 });
@@ -43,6 +48,7 @@ export const {
   setBrand,
   setRating,
   clearAllFilters,
+  setSort,
   setSearchTerm,
 } = filterSlice.actions;
 export default filterSlice.reducer;
