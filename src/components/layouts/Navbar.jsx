@@ -18,6 +18,7 @@ const Navbar = () => {
   const handleSearchTerm = (e) => {
     e.preventDefault();
     const searchTerm = e.target.product.value.trim();
+    console.log("dddd", searchTerm);
     navigate(`/get-products?searchTerm=${searchTerm}`);
   };
 

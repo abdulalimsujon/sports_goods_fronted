@@ -12,7 +12,6 @@ export const baseApi = createApi({
     }),
     getSingleProduct: builder.query({
       query: (id) => {
-        console.log("from the api", id);
         return {
           url: `/getSingleProduct/${id}`,
           method: "GET",
@@ -65,14 +64,6 @@ export const baseApi = createApi({
         };
       },
     }),
-    // getFieldBySearch: builder.query({
-    //   query: (fields) => {
-    //     return {
-    //       url: `/get-products?fields=${fields}`,
-    //       method: "GET",
-    //     };
-    //   },
-    // }),
 
     getProductWithPrice: builder.query({
       query: (price) => {
@@ -83,16 +74,26 @@ export const baseApi = createApi({
       },
     }),
     getFilterProducts: builder.query({
-      query: ({ category, price }) => {
+      query: ({ category, price, brand, rating, searchTerm }) => {
         // Create a new URLSearchParams object
         const params = new URLSearchParams();
 
+        console.log("insided the api", category, price, brand, searchTerm);
         // Conditionally append query parameters if they are provided
         if (category) {
           params.append("category", category);
         }
         if (price) {
           params.append("price", price);
+        }
+        if (brand) {
+          params.append("brand", brand);
+        }
+        if (rating) {
+          params.append("rating", rating);
+        }
+        if (searchTerm) {
+          params.append("searchTerm", searchTerm);
         }
 
         return {

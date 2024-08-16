@@ -1,41 +1,51 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setPrice } from "../../redux/features/filterSlice";
+import PropTypes from "prop-types";
 
-const RangeSlider = () => {
-  const [value, setValue] = useState(0);
+const ReusableRangeSlider = ({ min, max, title, setElement }) => {
+  const [value, setValue] = useState(min); // Initialize value with min
   const dispatch = useDispatch();
 
   // Handle the change event
   const handleChange = (event) => {
     const newValue = Number(event.target.value);
     setValue(newValue);
-    dispatch(setPrice(value));
+    dispatch(setElement(newValue));
   };
 
   return (
     <div className="w-full">
       <div className="">
-        <p>Price: {value}</p>
+        <p>
+          {title}: {value}
+        </p>
       </div>
       <input
         type="range"
-        min={0}
-        max={1000}
+        min={min}
+        max={max}
         value={value}
         className="range range-primary"
         onChange={handleChange}
       />
       <div className="flex justify-between">
         <div className="ml-0 h-5">
-          <h1>0</h1>
+          <h1>{min}</h1> {/* Use min value */}
         </div>
         <div className="mr-0 h-5">
-          <h1>1000</h1>
+          <h1>{max}</h1> {/* Use max value */}
         </div>
       </div>
     </div>
   );
 };
 
-export default RangeSlider;
+// PropTypes validation
+ReusableRangeSlider.propTypes = {
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  setElement: PropTypes.func.isRequired,
+};
+
+export default ReusableRangeSlider;
