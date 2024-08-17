@@ -6,6 +6,7 @@ import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 import { Toast } from "../../components/utilities/Toast";
 import ProductCard from "../../components/utilities/ProductCard";
 import ReusableAccordian from "../../components/utilities/ReusableAccordian";
+
 import {
   clearAllFilters,
   setBrand,
@@ -71,7 +72,7 @@ const Allproducts = () => {
             <RangeSlider />
             <button
               onClick={handleReset}
-              className="btn bg-slate-200 hover:bg-amber-500 w-full mt-2"
+              className="btn bg-slate-200 hover:bg-amber-500 w-full mt-2 text-2xl"
             >
               Reset Filters
             </button>
@@ -80,8 +81,10 @@ const Allproducts = () => {
           {/* Product Grid for large screens */}
           <div className="lg:w-3/4 w-full">
             <div className="border border-spacing-4 p-2 mb-2 flex justify-between">
-              <div className="relative h-full w-48 bg-amber-400 group">
-                <h1 className="pl-3 text-center cursor-pointer">Sort by</h1>
+              <div className="relative h-full w-48 bg-amber-400 group text-xl">
+                <h1 className="pl-3 text-center cursor-pointer text-xl text-white">
+                  Sort By
+                </h1>
                 <ul className="absolute left-0 w-48 h-40 bg-white shadow-lg hidden group-hover:block z-[50]">
                   <li
                     onClick={() => {
