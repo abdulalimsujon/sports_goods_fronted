@@ -104,6 +104,14 @@ export const baseApi = createApi({
         };
       },
     }),
+    getLatestProduct: builder.query({
+      query: () => {
+        return {
+          url: `/latest-products`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -116,7 +124,7 @@ export const {
   useDeleteCartProductMutation,
   useGetProductBySearchQuery,
   useGetFilterProductsQuery,
-  // useGetFieldBySearchQuery,
+  useGetLatestProductQuery,
   useClearFiltersQuery,
   useGetProductWithPriceQuery,
 } = baseApi;

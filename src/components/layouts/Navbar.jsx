@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CgShoppingCart } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -10,6 +10,7 @@ const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -19,6 +20,7 @@ const Navbar = () => {
     e.preventDefault();
     const searchTerm = e.target.product.value.trim();
     dispatch(setSearchTerm(searchTerm));
+    navigate("/allProducts");
   };
 
   const activeLinkStyle = "text-yellow-300";

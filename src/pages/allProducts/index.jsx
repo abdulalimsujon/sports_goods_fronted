@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import RangeSlider from "../allProducts/RangeSlider";
 import { Brands, categories } from "./product.const";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,11 +24,10 @@ const Allproducts = () => {
   const rating = useSelector((state) => state.filters.rating);
   const searchTerm = useSelector((state) => state.filters.searchTerm);
   const sort = useSelector((state) => state.filters.sort);
+  const [list, setList] = useState(3);
   const dispatch = useDispatch();
 
-  console.log("sort", sort);
-
-  const { data, error, isLoading } = useGetFilterProductsQuery({
+  const { data, error, isLoading, refetch } = useGetFilterProductsQuery({
     price,
     category,
     brand,
@@ -35,6 +35,10 @@ const Allproducts = () => {
     sort,
     searchTerm,
   });
+
+  useEffect(() => {
+    refetch(); // Refetch the latest data when the component mounts
+  }, [refetch]);
 
   if (isLoading) {
     return <LoaderSpinner />;
@@ -45,6 +49,12 @@ const Allproducts = () => {
 
   const handleReset = () => {
     dispatch(clearAllFilters());
+    refetch(); // Refetch data after resetting filters
+  };
+
+  const handleSortChange = (sortOption) => {
+    dispatch(setSort(sortOption));
+    refetch(); // Refetch data after changing sort option
   };
 
   return (
@@ -56,18 +66,27 @@ const Allproducts = () => {
             <ReusableAccordian
               title="category"
               contents={categories}
-              setElement={setCategory}
+              setElement={(value) => {
+                dispatch(setCategory(value));
+                refetch(); // Refetch data after selecting a category
+              }}
             />
             <ReusableAccordian
               title="brand"
               contents={Brands}
-              setElement={setBrand}
+              setElement={(value) => {
+                dispatch(setBrand(value));
+                refetch(); // Refetch data after selecting a brand
+              }}
             />
             <ReusableRangeSlider
               min={0}
               max={5}
               title={"Rating"}
-              setElement={setRating}
+              setElement={(value) => {
+                dispatch(setRating(value));
+                refetch(); // Refetch data after selecting a rating
+              }}
             />
             <RangeSlider />
             <button
@@ -82,33 +101,48 @@ const Allproducts = () => {
           <div className="lg:w-3/4 w-full">
             <div className="border border-spacing-4 p-2 mb-2 flex justify-between">
               <div className="relative h-full w-48 bg-amber-400 group text-xl">
-                <h1 className="pl-3 text-center cursor-pointer text-xl text-white">
+                <h1 className="p-2 text-center cursor-pointer text-xl text-white">
                   Sort By
                 </h1>
                 <ul className="absolute left-0 w-48 h-40 bg-white shadow-lg hidden group-hover:block z-[50]">
                   <li
-                    onClick={() => {
-                      dispatch(setSort("price"));
-                    }}
+                    onClick={() => handleSortChange("price")}
                     className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                   >
                     Ascending
                   </li>
                   <li
-                    onClick={() => {
-                      dispatch(setSort("-price"));
-                    }}
-                    className="px-4 py-2  cursor-pointer hover:bg-slate-200"
+                    onClick={() => handleSortChange("-price")}
+                    className="px-4 py-2 cursor-pointer hover:bg-slate-200"
                   >
                     Descending
                   </li>
                 </ul>
               </div>
-              <div>
-                <h1>2</h1>
+              <div className="flex">
+                <div
+                  onClick={() => setList(3)}
+                  className="p-2 bg-amber-300 ml-2"
+                >
+                  <h1>lll</h1>
+                </div>
+                <div
+                  onClick={() => setList(5)}
+                  className="p-2 bg-amber-300 ml-2"
+                >
+                  <h1 className="">lllll</h1>
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div
+              className={`grid gap-2 ${
+                list === 3
+                  ? "grid-cols-3"
+                  : list === 5
+                  ? "grid-cols-5"
+                  : "grid-cols-3" // Default to 1 column or any other fallback option
+              }`}
+            >
               {data?.data?.result?.length > 0 ? (
                 data?.data?.result?.map((product) => (
                   <ProductCard key={product.id} product={product} />

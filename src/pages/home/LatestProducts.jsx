@@ -1,14 +1,16 @@
 import ProductCard from "../../components/utilities/ProductCard";
-import { useGetProductsQuery } from "../../redux/api/api";
+import { useGetLatestProductQuery } from "../../redux/api/api";
 
 const LatestProducts = () => {
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading } = useGetLatestProductQuery();
+
+  console.log(data);
 
   if (isLoading) {
     <p>loading..</p>;
   }
-  console.log(data?.data);
-  const products = data?.data?.result;
+
+  const products = data?.data;
 
   return (
     <div>

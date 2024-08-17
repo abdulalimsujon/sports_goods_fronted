@@ -106,6 +106,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
                 className="w-full px-2 py-1 border rounded-lg text-gray-900"
                 placeholder="Enter product description"
                 rows="2"
+                required
               />
             </div>
             <div className="mb-3">
