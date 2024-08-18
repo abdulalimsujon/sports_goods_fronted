@@ -47,7 +47,6 @@ export const baseApi = createApi({
     }),
     deleteCartProduct: builder.mutation({
       query: (options) => {
-        console.log("inside the api", options);
         return {
           url: `/update-cart-product`,
           method: "DELETE",

@@ -13,20 +13,29 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="card card-compact bg-base-100 max-w-96 shadow-xl">
-      <figure>
-        <img src={image} alt="Shoes" />
+      <figure style={{ height: "300px", width: "500px wrap-content" }}>
+        <img
+          style={{ height: "300px", width: "500px" }}
+          src={image}
+          alt="Shoes"
+        />
       </figure>
+
       <div className="card-body">
-        <h2 className="card-title">{name}</h2>
-        <p className="font-semibold text-xl">price: ${price}</p>
-        <p>{<ProductRating stars={rating}></ProductRating>}</p>
-        <div className="card-actions justify-center">
-          <button
-            className="btn btn-primary hover:bg-amber-600"
-            onClick={singlePage}
-          >
-            View details
-          </button>
+        <div className="flex justify-between">
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="card-title">{name}</h2>
+            <p className="font-semibold text-xl">price: ${price}</p>
+            <p>{<ProductRating stars={rating}></ProductRating>}</p>
+          </div>
+          <div className="card-actions justify-center">
+            <button
+              className="btn btn-primary hover:bg-amber-200"
+              onClick={singlePage}
+            >
+              View details
+            </button>
+          </div>
         </div>
       </div>
     </div>

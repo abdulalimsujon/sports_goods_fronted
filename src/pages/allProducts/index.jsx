@@ -127,7 +127,7 @@ const Allproducts = () => {
                   <h1>lll</h1>
                 </div>
                 <div
-                  onClick={() => setList(5)}
+                  onClick={() => setList(4)}
                   className="p-2 bg-amber-300 ml-2"
                 >
                   <h1 className="">lllll</h1>
@@ -138,8 +138,8 @@ const Allproducts = () => {
               className={`grid gap-2 ${
                 list === 3
                   ? "grid-cols-3"
-                  : list === 5
-                  ? "grid-cols-5"
+                  : list === 4
+                  ? "grid-cols-4"
                   : "grid-cols-3" // Default to 1 column or any other fallback option
               }`}
             >
