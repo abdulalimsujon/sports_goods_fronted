@@ -130,7 +130,7 @@ const Allproducts = () => {
                   onClick={() => setList(4)}
                   className="p-2 bg-amber-300 ml-2"
                 >
-                  <h1 className="">lllll</h1>
+                  <h1 className="">llll</h1>
                 </div>
               </div>
             </div>

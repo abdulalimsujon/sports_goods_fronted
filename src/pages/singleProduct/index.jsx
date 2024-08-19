@@ -4,12 +4,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addTocart } from "../../redux/features/CartSlice";
 import ProductRating from "../../components/utilities/ProductRating";
+import { useEffect } from "react";
 
 const SingleProduct = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetSingleProductQuery(id);
+  const { data, isLoading, refetch } = useGetSingleProductQuery(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -35,13 +40,13 @@ const SingleProduct = () => {
   };
 
   return (
-    <div className="flex justify-center items-center   mt-10 ">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg overflow-hidden ">
+    <div className="flex justify-center items-center mt-10">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg overflow-hidden">
         <PhotoProvider>
-          <PhotoView src={p.image}>
+          <PhotoView src={image}>
             <img
-              src={p.image}
-              alt={p.name || "Product Image"}
+              src={image}
+              alt={name || "Product Image"}
               className="w-full h-64 object-cover"
             />
           </PhotoView>
@@ -55,13 +60,13 @@ const SingleProduct = () => {
           <p className="text-gray-700 mb-2">
             <strong>Brand:</strong> {brand}
           </p>
-          <p className="text-gray-700 mb-2 ">
+          <p className="text-gray-700 mb-2">
             <strong>Stock Quantity:</strong> {stock_quantity}
           </p>
           <div className="flex items-center mb-4">
-            <div className="mr-2 flex justify-center items-center ">
+            <div className="mr-2 flex justify-center items-center">
               <strong className="pr-2">Rating:</strong>{" "}
-              <ProductRating stars={rating}></ProductRating>
+              <ProductRating stars={rating} />
             </div>
           </div>
           <div className="flex items-center mb-4">

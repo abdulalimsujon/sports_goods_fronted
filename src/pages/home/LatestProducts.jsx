@@ -45,7 +45,7 @@ const LatestProducts = () => {
           </div>
           <div className="col-span-9 pl-5">
             <div className="bg-gray-50">
-              <h1 className="text-center text-3xl p-5 text-amber-300 mb-5">
+              <h1 className="text-center text-3xl p-4 text-amber-300 mb-5">
                 Latest Product
               </h1>
             </div>
