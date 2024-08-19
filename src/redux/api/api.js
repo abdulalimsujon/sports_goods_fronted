@@ -72,12 +72,21 @@ export const baseApi = createApi({
       },
     }),
     getFilterProducts: builder.query({
-      query: ({ category, price, brand, rating, searchTerm, sort }) => {
+      query: ({
+        category,
+        price,
+        brand,
+        rating,
+        searchTerm,
+        sort,
+        page,
+        limit,
+      }) => {
         // Create a new URLSearchParams object
         const params = new URLSearchParams();
 
-        //  console.log("insided the api", category, price, brand, searchTerm);
-        // Conditionally append query parameters if they are provided
+        console.log("inside the api", page, limit);
+
         if (category) {
           params.append("category", category);
         }
@@ -95,6 +104,12 @@ export const baseApi = createApi({
         }
         if (sort) {
           params.append("sort", sort);
+        }
+        if (page) {
+          params.append("page", page);
+        }
+        if (limit) {
+          params.append("limit", limit);
         }
 
         return {

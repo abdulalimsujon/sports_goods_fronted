@@ -7,6 +7,8 @@ const initialState = {
   rating: null,
   searchTerm: null,
   sort: null,
+  page: 1,
+  limit: 8,
 };
 
 const filterSlice = createSlice({
@@ -31,6 +33,12 @@ const filterSlice = createSlice({
     setSort: (state, action) => {
       state.sort = action.payload;
     },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setLimit: (state, action) => {
+      state.limit = action.payload;
+    },
     clearAllFilters: (state) => {
       state.category = null;
       state.price = null;
@@ -38,6 +46,8 @@ const filterSlice = createSlice({
       state.rating = null;
       state.searchTerm = null;
       state.sort = null;
+      state.page = null;
+      state.limit = null;
     },
   },
 });
@@ -50,5 +60,7 @@ export const {
   clearAllFilters,
   setSort,
   setSearchTerm,
+  setPage,
+  setLimit,
 } = filterSlice.actions;
 export default filterSlice.reducer;
