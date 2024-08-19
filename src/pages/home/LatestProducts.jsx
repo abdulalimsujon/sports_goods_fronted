@@ -4,6 +4,7 @@ import { useGetLatestProductQuery } from "../../redux/api/api";
 import { categories } from "../allProducts/product.const";
 import { useDispatch } from "react-redux";
 import { setCategory } from "../../redux/features/filterSlice";
+import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
 const LatestProducts = () => {
   const { data, isLoading } = useGetLatestProductQuery();
@@ -11,7 +12,7 @@ const LatestProducts = () => {
   const dispatch = useDispatch();
 
   if (isLoading) {
-    return <p>loading..</p>; // Fixed the missing return statement here
+    return <LoaderSpinner></LoaderSpinner>;
   }
 
   const products = data?.data;

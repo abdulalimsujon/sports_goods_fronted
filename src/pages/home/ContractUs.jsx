@@ -1,78 +1,62 @@
 const ContactUs = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-          Contact Us
-        </h2>
-        <form className="space-y-6">
-          <div>
-            <label
-              className="block text-gray-600 font-medium mb-2"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your name"
-              required
-            />
+    <div className="bg-gray-100 max-w-[1600px] mx-auto mt-10">
+      <div className="container flex justify-center items-center">
+        <div className="ml-8">
+          <h1 className="text-center text-4xl py-5 text-amber-500">
+            Get In Touch
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3  mx-auto p-8">
+            <div className="p-8 md:p-20 border">
+              <form action="" className="space-y-6">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 "
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    placeholder="Write your message here"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-2 btn btn-primary text-white font-bold rounded-lg hover:bg-amber-500 transition duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            <div className="p-5 border flex justify-center items-center">
+              <img
+                src="https://i.ibb.co/VWGHL78/tttt.jpg"
+                alt="Contact"
+                className="max-w-full h-auto rounded-lg"
+              />
+            </div>
           </div>
-          <div>
-            <label
-              className="block text-gray-600 font-medium mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div>
-            <label
-              className="block text-gray-600 font-medium mb-2"
-              htmlFor="subject"
-            >
-              Subject
-            </label>
-            <input
-              type="text"
-              id="subject"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter the subject"
-              required
-            />
-          </div>
-          <div>
-            <label
-              className="block text-gray-600 font-medium mb-2"
-              htmlFor="message"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              rows="5"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Write your message here"
-              required
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Send Message
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );
