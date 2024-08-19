@@ -7,12 +7,18 @@ import { setCategory } from "../../redux/features/filterSlice";
 import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
 const LatestProducts = () => {
-  const { data, isLoading } = useGetLatestProductQuery();
+  // Polling every 30 seconds (30000 ms)
+  const { data, isLoading } = useGetLatestProductQuery(null, {
+    pollingInterval: 30000, // 30 seconds in milliseconds
+  });
+
+  console.log("pooling data", data);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   if (isLoading) {
-    return <LoaderSpinner></LoaderSpinner>;
+    return <LoaderSpinner />;
   }
 
   const products = data?.data;
@@ -26,7 +32,12 @@ const LatestProducts = () => {
     <div className="max-w-[1580px] mx-auto mt-20">
       <div className="">
         <div className="grid grid-cols-12 mx-auto ">
-          <div className="col-span-3 bg-gray-50">
+          <div
+            className="col-span-3 bg-gray-50 "
+            data-aos="fade-up-right"
+            data-aos-duration="1000"
+            data-aos-easing="ease-in-out"
+          >
             <div className="h1 text-xl">
               <div className="border mx-auto bg-amber-200 ">
                 <h1 className="text-center p-4">All Category</h1>
@@ -39,12 +50,18 @@ const LatestProducts = () => {
                     className="pb-5 mx-auto  w-28 h-10 border border-amber-500 mt-5 text-center hover:bg-amber-200"
                   >
                     {category}
-                  </li>{" "}
+                  </li>
                 </ul>
               ))}
             </div>
           </div>
-          <div className="col-span-9 pl-5">
+          <div
+            className="col-span-9 pl-5"
+            data-aos="fade-up-left"
+            data-aos-duration="1000"
+            data-aos-easing="ease-in-out"
+            data-aos-once="false"
+          >
             <div className="bg-gray-50">
               <h1 className="text-center text-3xl p-4 text-amber-300 mb-5">
                 Latest Product

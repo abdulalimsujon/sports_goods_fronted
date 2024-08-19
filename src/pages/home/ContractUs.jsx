@@ -7,7 +7,12 @@ const ContactUs = () => {
             Get In Touch
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3  mx-auto p-8">
-            <div className="p-8 md:p-20 border">
+            <div
+              className="p-8 md:p-20 border"
+              data-aos="flip-left"
+              data-aos-easing="ease-out-cubic"
+              data-aos-duration="2000"
+            >
               <form action="" className="space-y-6">
                 <div>
                   <label className="block text-gray-700 font-medium mb-2">
@@ -48,7 +53,11 @@ const ContactUs = () => {
               </form>
             </div>
 
-            <div className="p-5 border flex justify-center items-center">
+            <div
+              className="p-5 border flex justify-center items-center"
+              data-aos="zoom-out-left"
+              data-aos-duration="2000"
+            >
               <img
                 src="https://i.ibb.co/VWGHL78/tttt.jpg"
                 alt="Contact"
