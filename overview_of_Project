@@ -1,0 +1,35 @@
+
+This project is about a shop of sports quiptment management.
+----------------------------------------------------------------------------------------------
+
+fronted--> as fronted he i use react,tailwind ,daisy ui and redux for local state
+management and for server state management RTk query.There are also aso library for animation of Home page. 
+For the payment here are used Stripe .
+
+backed-->express, mongodb,mongoose and eslint prettier for format and code error checking.
+
+-----------------------------------all pages--------------------------------------------------
+
+All product page --> There are category, brand ,price,rating etc every product that help you 
+
+to reach your product. you can search by name,brand,category. here are also query you can query
+
+by brand ,category,rating,price .Here are also short by ascending and decending order.in the bottom 
+
+you can see the pagination.
+
+
+single page-->    in the all product page ,you can see view details of every product of card .To click 
+this you will go in single page.Here you can see all things about the product.you can add to card here to buy 
+product at first step.
+
+
+Cart--> from the single from you will go in Cart page.Here you can increase and decrease in your product and also
+
+you can see the calculation of you shopping.
+
+checkout page---> From the cart you can go into the checkout page , here you have to provide  some information about 
+the user.then make payment about with visa card and cash on delivery and the product quantity will the reduce from the 
+actual quantity.
+
+about ---> here you can see some information about our company.our misson and vison .our team member,location and contract 
