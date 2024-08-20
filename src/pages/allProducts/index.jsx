@@ -76,7 +76,6 @@ const Allproducts = () => {
     refetch(); // Refetch data with the new limit
   };
 
-  console.log("the meta data is here", data?.data?.meta);
   const totalPages = data?.data?.meta?.totalPage;
 
   const totalProducts = data?.data?.meta?.totalProducts;

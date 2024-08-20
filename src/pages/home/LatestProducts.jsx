@@ -29,7 +29,7 @@ const LatestProducts = () => {
   };
 
   return (
-    <div className="max-w-[1580px] mx-auto mt-20">
+    <div className="max-w-[1580px] mx-auto mt-10">
       <div className="">
         <div className="grid grid-cols-12 mx-auto ">
           <div

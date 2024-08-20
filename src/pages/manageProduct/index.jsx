@@ -22,7 +22,6 @@ const ManageProduct = () => {
   const openCreateModal = () => setIsCreateModalOpen(true);
   const closeCreateModal = () => setIsCreateModalOpen(false);
   const openUpdateModal = (product) => {
-    console.log(products.result);
     setSelectedProduct(product);
     setIsUpdateModalOpen(true);
   };
@@ -92,6 +91,7 @@ const ManageProduct = () => {
                   <th className="py-3 px-2 sm:px-6 text-center">Product</th>
                   <th className="py-3 px-2 sm:px-6 text-center">Category</th>
                   <th className="py-3 px-2 sm:px-6 text-center">Brand</th>
+                  <th className="py-3 px-2 sm:px-6 text-center">price</th>
                   <th className="py-3 px-2 sm:px-6 text-center">Rating</th>
                   <th className="py-3 px-2 sm:px-6 text-center">
                     Stock Quantity
@@ -126,6 +126,9 @@ const ManageProduct = () => {
                       {product.brand}
                     </td>
                     <td className="py-3 px-2 sm:px-6 text-center">
+                      {product.price}
+                    </td>
+                    <td className="py-3 px-2 sm:px-6 text-center">
                       {product.rating}
                     </td>
                     <td className="py-3 px-2 sm:px-6 text-center">
@@ -151,24 +154,6 @@ const ManageProduct = () => {
                   </tr>
                 ))}
               </tbody>
-
-              {/* <tfoot>
-                <tr className="bg-gray-200 text-gray-700 uppercase text-xs sm:text-sm leading-normal">
-                  <td colSpan="9" className="py-3 px-2 sm:px-6 text-center">
-                    {/* Page Numbers (Static from 1 to 10) */}
-              {/* <div className="flex justify-center items-center space-x-2">
-                      {[...Array(10).keys()].map((page) => (
-                        <button
-                          key={page}
-                          className="px-3 py-1 sm:px-4 sm:py-1 rounded bg-gray-300 text-gray-700 hover:bg-gray-400"
-                        >
-                          {page + 1}
-                        </button>
-                      ))}
-                    </div> */}
-              {/* </td>
-                </tr>
-              </tfoot>  */}
             </table>
           </div>
         </div>

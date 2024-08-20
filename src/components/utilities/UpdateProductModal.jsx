@@ -7,7 +7,7 @@ import LoaderSpinner from "./LoaderSpinner";
 import Toast from "./Toast";
 
 const UpdateProductModal = ({ isOpen, closeModal, product }) => {
-  const [updateProduct, { isLoading, isError, isSuccess }] =
+  const [updateProduct, { isLoading, isError, isSuccess, reset }] =
     useUpdateProductMutation();
 
   const { refetch } = useGetProductsQuery();
@@ -20,6 +20,7 @@ const UpdateProductModal = ({ isOpen, closeModal, product }) => {
     return Toast("Product update failed", "error");
   }
   if (isSuccess) {
+    reset();
     closeModal();
   }
 
