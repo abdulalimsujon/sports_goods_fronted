@@ -7,11 +7,22 @@ import {
   increaseToCart,
 } from "../../redux/features/CartSlice";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
+
+  const [disabled, setDisable] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isDisabled = cart.some(
+      (product) => product?.quantity > product?.stock_quantity
+    );
+    setDisable(isDisabled);
+  }, [cart, disabled]);
 
   const GoAllProduct = () => {
     navigate("/allproducts");
@@ -28,11 +39,19 @@ const Cart = () => {
     );
   };
 
+  const handleIncreaseToCart = (item) => {
+    if (item.quantity == item.stock_quantity) {
+      toast.error("Stock out");
+    } else {
+      dispatch(increaseToCart({ id: item.id }));
+    }
+  };
+
   return (
-    <div className="container mx-w-[1620] mt-8 max-w-7xl h-auto mx-auto mb-64 ">
+    <div className="container mx-w-[1620] mt-8 max-w-7xl h-auto mx-auto mb-64">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="lg:col-span-7 p-4">
-          <table className="table-auto w-full border-collapse rounded-lg ">
+          <table className="table-auto w-full border-collapse rounded-lg">
             <thead>
               <tr className="bg-gray-200">
                 <th className="border px-2 md:px-4 py-2">Action</th>
@@ -80,10 +99,9 @@ const Cart = () => {
                         {item.price * item.quantity}
                       </p>
                       <button
-                        onClick={() =>
-                          dispatch(increaseToCart({ id: item.id }))
-                        }
+                        onClick={() => handleIncreaseToCart(item)}
                         className="bg-gray-200 text-black rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300"
+                        disabled={item.quantity > item.stock_quantity}
                       >
                         +
                       </button>
@@ -125,9 +143,9 @@ const Cart = () => {
             <div className="text-center">
               <button
                 onClick={() => navigate("/checkout")}
-                disabled={cart.length <= 0}
+                disabled={disabled || cart.length <= 0}
                 className={`w-full py-2 px-4 rounded text-white ${
-                  cart?.length > 0
+                  !disabled && cart.length > 0
                     ? "bg-primary hover:bg-amber-600"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}

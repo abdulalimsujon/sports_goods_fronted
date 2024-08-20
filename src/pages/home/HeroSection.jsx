@@ -29,10 +29,10 @@ const HeroSection = () => {
           alt="Special winter collection"
         />
 
-        <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-          <div className="ml-8 md:ml-48 space-y-4 md:space-y-8 p-4 bg-opacity-50 rounded-md max-w-lg md:max-w-2xl">
+        <div className="absolute inset-0 flex items-center justify-start px-5 md:px-10 lg:px-20">
+          <div className="bg-white bg-opacity-60 p-4 md:p-8 rounded-md max-w-lg md:max-w-xl lg:max-w-2xl space-y-4">
             <h1
-              className="text-2xl md:text-5xl text-amber-500 font-extrabold "
+              className="text-2xl md:text-4xl lg:text-5xl text-amber-500 font-extrabold"
               data-aos="fade-down"
               data-aos-delay="50"
               data-aos-duration="1000"
@@ -41,15 +41,15 @@ const HeroSection = () => {
               Special Winter Collection
             </h1>
 
-            <div className="mt-5">
+            <div className="mt-2 md:mt-4">
               <span
                 id="text"
-                className="text-xl md:text-3xl text-amber-500 "
+                className="text-lg md:text-2xl lg:text-3xl text-amber-500"
               ></span>
             </div>
 
             <p
-              className="text-sm md:text-xl text-justify text-gray-800"
+              className="text-xs md:text-sm lg:text-base xl:text-lg text-justify text-gray-800"
               data-aos="fade-up-right"
               data-aos-delay="50"
               data-aos-duration="2000"
@@ -58,11 +58,11 @@ const HeroSection = () => {
               We are offering an enormous deal this season! If you are thinking
               about upgrading your sports equipment, now is the perfect time.
               With unbeatable prices and a wide selection of top-quality gear,
-              you will find everything you need to elevate your game. Don’t miss
+              you will find everything you need to elevate your game. Dont miss
               out on these limited-time offers!
             </p>
 
-            <p className="text-sm md:text-xl text-gray-800">
+            <p className="text-xs md:text-sm lg:text-base xl:text-lg text-gray-800">
               Lets start your shopping
             </p>
             <button

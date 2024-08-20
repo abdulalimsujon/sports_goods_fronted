@@ -166,7 +166,7 @@ const Allproducts = () => {
                     id="limit"
                     value={limit}
                     onChange={handleLimitChange}
-                    className="border border-gray-300 p-2 rounded"
+                    className="border border-amber-300 p-2 rounded"
                   >
                     <option value={4}>4</option>
                     <option value={8}>8</option>

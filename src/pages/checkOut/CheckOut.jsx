@@ -196,7 +196,9 @@ const CheckOut = () => {
 
             <button
               onClick={() => setPlaceOrder(!placeOrder)}
-              className="w-full bg-primary text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5"
+              className={`w-full bg-primary text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-5 ${
+                cart.length !== 0 ? "animate-bounce" : ""
+              }`}
             >
               Place Order
             </button>

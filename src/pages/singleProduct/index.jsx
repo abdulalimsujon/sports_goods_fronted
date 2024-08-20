@@ -35,7 +35,7 @@ const SingleProduct = () => {
   } = p;
 
   const handleCart = async () => {
-    dispatch(addTocart({ id: _id, name, image, price }));
+    dispatch(addTocart({ id: _id, name, image, price, stock_quantity }));
     navigate("/cart");
   };
 
