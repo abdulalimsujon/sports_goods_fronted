@@ -28,18 +28,7 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", e.target.name.value);
-    formData.append("price", parseFloat(e.target.price.value));
-    formData.append("description", e.target.description.value);
-    formData.append("category", e.target.category.value);
-    formData.append("brand", e.target.brand.value);
-    formData.append("stock_quantity", parseFloat(e.target.stockQuantity.value));
-    formData.append("rating", parseFloat(e.target.rating.value));
-    formData.append("image", e.target.image.files[0]);
-
-    console.log("file is here", e.target.image.files[0]);
-
+    const formData = new FormData(e.target);
     try {
       await addProduct(formData).unwrap();
       refetch();
@@ -52,149 +41,54 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
 
   return (
     <dialog open className="modal modal-open">
-      <div className="border-amber-500 modal-box max-w-[600px]">
-        <div className="relative border p-8">
-          <button
-            className="btn btn-sm btn-circle btn-ghost absolute right-5 top-8 text-gray-500 hover:text-amber-500 text-2xl"
-            onClick={closeModal}
-            aria-label="Close"
-          >
-            ✕
+      <div className="modal-box max-w-md">
+        <button
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          onClick={closeModal}
+        >
+          ✕
+        </button>
+        <h3 className="text-lg font-bold text-center">Add New Product</h3>
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          <input
+            type="text"
+            name="name"
+            className="input input-bordered w-full"
+            placeholder="Product Name"
+            required
+          />
+          <input
+            type="number"
+            name="price"
+            className="input input-bordered w-full"
+            placeholder="Price"
+            step="any"
+            required
+          />
+          <input
+            type="text"
+            name="category"
+            className="input input-bordered w-full"
+            placeholder="Category"
+          />
+          <input
+            type="text"
+            name="brand"
+            className="input input-bordered w-full"
+            placeholder="Brand"
+          />
+          <input
+            type="number"
+            name="stockQuantity"
+            className="input input-bordered w-full"
+            placeholder="Stock Quantity"
+            step="1"
+          />
+          <input type="file" name="image" className=" w-full border" required />
+          <button type="submit" className="btn btn-primary w-full">
+            Save Product
           </button>
-          <h3 className="font-bold mb-4 text-amber-500 text-center text-2xl">
-            Add New Product
-          </h3>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label
-                htmlFor="name"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Product Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                className="w-full px-2 py-1 border p-5 rounded-lg"
-                placeholder="Enter product name"
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="price"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Price
-              </label>
-              <input
-                type="number"
-                name="price"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter product price"
-                step="any"
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="description"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Description
-              </label>
-              <textarea
-                name="description"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter product description"
-                rows="2"
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="category"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Category
-              </label>
-              <input
-                type="text"
-                name="category"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter product category"
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="brand"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Brand
-              </label>
-              <input
-                type="text"
-                name="brand"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter product brand"
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="stockQuantity"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Stock Quantity
-              </label>
-              <input
-                type="number"
-                name="stockQuantity"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter stock quantity"
-                step="any"
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="rating"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Rating (0-5)
-              </label>
-              <input
-                type="number"
-                id="rating"
-                name="rating"
-                className="w-full px-2 py-1 border rounded-lg text-gray-900"
-                placeholder="Enter product rating"
-                step="any"
-                min="0"
-                max="5"
-              />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="image"
-                className="block text-sm font-bold mb-2 text-gray-700"
-              >
-                Product Image
-              </label>
-              <input
-                type="file"
-                name="image"
-                className="w-full px-2 py-1 border rounded-lg"
-              />
-            </div>
-            <div className="flex justify-center py-2 space-x-4">
-              <button
-                type="submit"
-                className="btn bg-amber-500 text-white hover:bg-amber-600"
-              >
-                Save Product
-              </button>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
     </dialog>
   );

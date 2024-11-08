@@ -166,7 +166,7 @@ const About = () => {
       {/* Contact Us Section */}
       <section
         id="contract"
-        className="bg-base-200 py-10 text-black mt-20 pb-10"
+        className="bg-base-200 py-10 text-black mt-20 mb-10 "
       >
         <div className="container mx-auto pb-10">
           <h1 className="text-center text-3xl md:text-4xl font-bold mb-10 text-amber-300">

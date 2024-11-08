@@ -39,22 +39,23 @@ const Navbar = () => {
           <span className="text-2xl text-white">Sujon Sports Club</span>
 
           {/* Category Dropdown */}
-          <div className="relative group">
-            <div className="text-2xl text-white cursor-pointer">Category</div>
-            {/* Dropdown content */}
-            <div className="absolute left-0 mt-10 hidden group-hover:block bg-gray-300 shadow-lg rounded-lg w-[1000px] p-2 z-50">
+          <div className="relative h-full w-48  group text-xl">
+            <h1 className="p-2 text-center cursor-pointer text-xl text-white mb-3">
+              Category
+            </h1>
+            <ul className="absolute left-0 w-96 bg-gray-50 shadow-lg hidden group-hover:block z-[50] ">
               <div className="grid grid-cols-3">
                 {categories.map((category) => (
-                  <div
-                    className="p-2 cursor-pointer hover:bg-gray-200 rounded"
+                  <li
                     key={category}
                     onClick={() => handleCategory(category)}
+                    className="px-4 py-2 hover:text-amber-300 cursor-pointer"
                   >
                     {category}
-                  </div>
+                  </li>
                 ))}
               </div>
-            </div>
+            </ul>
           </div>
 
           <div className="lg:hidden">

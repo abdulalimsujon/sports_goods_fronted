@@ -7,7 +7,6 @@ import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 import { Toast } from "../../components/utilities/Toast";
 import ProductCard from "../../components/utilities/ProductCard";
 import ReusableAccordian from "../../components/utilities/ReusableAccordian";
-
 import {
   clearAllFilters,
   setBrand,
@@ -29,6 +28,7 @@ const Allproducts = () => {
   const page = useSelector((state) => state.filters.page);
   const limit = useSelector((state) => state.filters.limit);
   const [list, setList] = useState(3);
+  const [drawerOpen, setDrawerOpen] = useState(false); // Drawer visibility state
 
   const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ const Allproducts = () => {
   });
 
   useEffect(() => {
-    refetch(); // Refetch the latest data when the component mounts
+    refetch();
   }, [refetch, page, limit]);
 
   if (isLoading) {
@@ -56,43 +56,56 @@ const Allproducts = () => {
 
   const handleReset = () => {
     dispatch(clearAllFilters());
-    setPage(1); // Reset to first page after clearing filters
-    refetch(); // Refetch data after resetting filters
+    setPage(1);
+    refetch();
   };
 
   const handleSortChange = (sortOption) => {
     dispatch(setSort(sortOption));
-    setPage(1); // Reset to the first page when sorting changes
-    refetch(); // Refetch data after changing sort option
+    setPage(1);
+    refetch();
   };
 
   const handlePageChange = (newPage) => {
     dispatch(setPage(newPage));
-    refetch(); // Refetch data with the new page number
+    refetch();
   };
 
   const handleLimitChange = (event) => {
-    dispatch(setLimit(parseInt(event.target.value))); // Update the limit with the selected value
-    refetch(); // Refetch data with the new limit
+    dispatch(setLimit(parseInt(event.target.value)));
+    refetch();
   };
 
   const totalPages = data?.data?.meta?.totalPage;
-
   const totalProducts = data?.data?.meta?.totalProducts;
 
   return (
     <div className="h-auto max-w-[1580px] mx-auto mt-10">
       <div className="container max-w-[1580px]">
         <div className="flex flex-wrap lg:flex-nowrap gap-4">
-          {/* Sidebar for large screens */}
-          <div className="lg:w-1/4 w-full">
+          {/* Drawer Button for Small Screens */}
+          <div className="lg:hidden w-full mb-4">
+            <button
+              onClick={() => setDrawerOpen(!drawerOpen)}
+              className="btn bg-amber-500 w-full text-xl"
+            >
+              {drawerOpen ? "Close Filters" : "Open Filters"}
+            </button>
+          </div>
+
+          {/* Sidebar / Drawer */}
+          <div
+            className={`${
+              drawerOpen ? "block" : "hidden"
+            } lg:block lg:w-1/5 w-full bg-white lg:bg-transparent p-4 shadow-lg lg:shadow-none`}
+          >
             <ReusableAccordian
               title="category"
               contents={categories}
               setElement={(value) => {
                 dispatch(setCategory(value));
-                setPage(1); // Reset to first page after selecting a category
-                refetch(); // Refetch data after selecting a category
+                setPage(1);
+                refetch();
               }}
             />
             <ReusableAccordian
@@ -100,8 +113,8 @@ const Allproducts = () => {
               contents={Brands}
               setElement={(value) => {
                 dispatch(setBrand(value));
-                setPage(1); // Reset to first page after selecting a brand
-                refetch(); // Refetch data after selecting a brand
+                setPage(1);
+                refetch();
               }}
             />
             <ReusableRangeSlider
@@ -110,8 +123,8 @@ const Allproducts = () => {
               title={"Rating"}
               setElement={(value) => {
                 dispatch(setRating(value));
-                setPage(1); // Reset to first page after selecting a rating
-                refetch(); // Refetch data after selecting a rating
+                setPage(1);
+                refetch();
               }}
             />
             <RangeSlider />
@@ -123,9 +136,9 @@ const Allproducts = () => {
             </button>
           </div>
 
-          {/* Product Grid for large screens */}
+          {/* Product Grid */}
           <div className="lg:w-3/4 w-full">
-            <div className="border border-spacing-4 p-2 mb-2 flex justify-between items-center">
+            <div className="border border-spacing-4  mb-2 flex justify-between items-center">
               <div className="relative h-full w-48 bg-amber-400 group text-xl">
                 <h1 className="p-2 text-center cursor-pointer text-xl text-white">
                   Sort By
@@ -156,7 +169,7 @@ const Allproducts = () => {
                   onClick={() => setList(4)}
                   className="p-2 bg-amber-300 ml-2 cursor-pointer"
                 >
-                  <h1 className="">llll</h1>
+                  <h1>llll</h1>
                 </div>
                 <div className="ml-4">
                   <label htmlFor="limit" className="mr-2 text-xl">
@@ -176,29 +189,29 @@ const Allproducts = () => {
                 </div>
               </div>
             </div>
-            <div
-              className={`grid gap-2 ${
-                list === 3
-                  ? "grid-cols-3"
-                  : list === 4
-                  ? "grid-cols-4"
-                  : "grid-cols-3" // Default to 3 columns or any other fallback option
-              }`}
-            >
-              {data?.data?.result?.length > 0 ? (
-                data?.data?.result?.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))
-              ) : (
-                <p>No data found</p>
-              )}
+            <div className="flex justify-center">
+              <div
+                className={`grid sm:grid-cols-1 md:grid-cols-2 ${
+                  list === 3
+                    ? "lg:grid-cols-3 gap-2"
+                    : "lg:grid-cols-4 gap-1 lg:w-full "
+                }`}
+              >
+                {data?.data?.result?.length > 0 ? (
+                  data?.data?.result?.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))
+                ) : (
+                  <p className="col-span-full text-center">No data found</p>
+                )}
+              </div>
             </div>
 
             {/* Pagination Controls */}
-            <div className="flex justify-center items-center mt-4 space-x-2">
+            <div className="flex justify-center items-center mt-4 space-x-2 mx-5">
               <button
                 onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1} // Disable "Previous" button on first page
+                disabled={page === 1}
                 className={`${
                   page === 1
                     ? "bg-gray-200 cursor-not-allowed"
@@ -212,7 +225,7 @@ const Allproducts = () => {
 
               <button
                 onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages} // Disable "Next" button on last page
+                disabled={page === totalPages}
                 className={`${
                   page === totalPages || totalProducts === 0
                     ? "bg-gray-200 cursor-not-allowed"
@@ -222,7 +235,7 @@ const Allproducts = () => {
                 Next
               </button>
             </div>
-            <h1 className="text-amber-500 text-2xl">
+            <h1 className="text-amber-500 text-2xl text-center">
               Total Page: {totalPages}
             </h1>
           </div>
