@@ -38,6 +38,8 @@ const CreateProductModal = ({ isOpen, closeModal }) => {
     formData.append("rating", parseFloat(e.target.rating.value));
     formData.append("image", e.target.image.files[0]);
 
+    console.log("file is here", e.target.image.files[0]);
+
     try {
       await addProduct(formData).unwrap();
       refetch();

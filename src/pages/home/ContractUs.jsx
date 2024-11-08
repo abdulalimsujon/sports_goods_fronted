@@ -1,6 +1,6 @@
 const ContactUs = () => {
   return (
-    <div className="bg-gray-100 max-w-[1600px] mx-auto mt-10 px-4 sm:px-6 lg:px-8 pb-3">
+    <div className="bg-gray-100 max-w-[1600px] mx-auto mt-10 px-4 sm:px-6 lg:px-8 pb-5">
       <div className="container mx-auto flex flex-col items-center">
         <h1 className="text-center text-2xl sm:text-3xl py-4 text-amber-500">
           Get In Touch

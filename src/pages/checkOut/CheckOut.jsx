@@ -101,7 +101,7 @@ const CheckOut = () => {
   };
 
   return (
-    <div className="container mt-12 mx-auto max-w-[1620px] px-8 sm:px-6 md:px-8 ">
+    <div className="container mt-10 mx-auto max-w-[1620px] px-8 sm:px-6 md:px-8 pb-5">
       <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-5 text-center md:text-left ">
         Checkout
       </h1>

@@ -39,12 +39,12 @@ const LatestProducts = () => {
           <div className="text-xl border-b bg-amber-200 text-center p-4">
             All Categories
           </div>
-          <ul className="flex flex-col items-center space-y-4 mt-5">
+          <ul className="flex flex-col items-center space-y-4 mt-5 max-auto">
             {categories.map((category) => (
               <li
                 key={category}
                 onClick={() => handleCategory(category)}
-                className="cursor-pointer w-32 md:w-28 h-10 border border-amber-500 text-center hover:bg-amber-200"
+                className="cursor-pointer w-32  h-10 border border-amber-500 text-center hover:bg-amber-200"
               >
                 {category}
               </li>

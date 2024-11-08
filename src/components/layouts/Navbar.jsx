@@ -27,27 +27,40 @@ const Navbar = () => {
   const linkStyle = "p-4 lg:p-0 hover:text-slate-500";
 
   return (
-    <div className="pb-16">
-      <header className="h-20 w-full bg-amber-500 fixed z-[999] text-xl">
-        <nav className="h-full max-w-[1620px] px-[20px] mx-auto flex items-center justify-between">
+    <div className="pb-16 lg:w-full h-20 bg-amber-500">
+      <header className="py-3">
+        <nav className="h-full max-w-[1620px] px-4 sm:px-6 md:px-8 mx-auto flex items-center justify-between">
           <span className="text-2xl text-white">Sujon Sports Club</span>
+
+          {/* Category Dropdown */}
+          <div className="relative group">
+            <span className="text-2xl text-white cursor-pointer">Category</span>
+            <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 hidden group-hover:block z-10">
+              <div className="max-w-sm sm:h-24 md:h-32 lg:h-96 bg-green-300 mx-auto"></div>
+            </div>
+          </div>
+
           <div className="lg:hidden">
             <button onClick={toggleMenu} className="text-white text-3xl">
               {menuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
-          <form onSubmit={handleSearchTerm} className="flex items-center">
+
+          <form
+            onSubmit={handleSearchTerm}
+            className="hidden md:flex items-center"
+          >
             <input
               type="text"
               name="product"
               placeholder="Find Sports Equipment"
-              className="p-3 w-80 focus:outline-none"
+              className="p-2 md:p-3 w-full md:w-64 lg:w-80 focus:outline-none"
             />
             <button
               type="submit"
-              className="bg-slate-300 border-0 p-3 focus:outline-none focus:ring-0"
+              className="bg-slate-300 border-0 p-2 md:p-3 focus:outline-none focus:ring-0"
             >
-              <CiSearch size={30} />
+              <CiSearch size={25} />
             </button>
           </form>
 
@@ -95,14 +108,33 @@ const Navbar = () => {
               }
             >
               <strong className="relative flex items-center">
-                <CgShoppingCart size={30} className="text-bold text-2xl" />
-                <div className="absolute top-[-10px] right-[10px] bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
+                <CgShoppingCart size={25} className="text-2xl" />
+                <div className="absolute top-[-10px] right-[-10px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {cart.cart.length}
                 </div>
               </strong>
             </NavLink>
           </ul>
         </nav>
+
+        {/* Search Bar for Small Screens */}
+        <form
+          onSubmit={handleSearchTerm}
+          className="flex md:hidden items-center mt-4 px-4"
+        >
+          <input
+            type="text"
+            name="product"
+            placeholder="Find Sports Equipment"
+            className="p-2 w-full focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="bg-slate-300 border-0 p-2 focus:outline-none focus:ring-0"
+          >
+            <CiSearch size={25} />
+          </button>
+        </form>
       </header>
     </div>
   );
