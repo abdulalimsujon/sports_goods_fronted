@@ -1,8 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect } from "react";
 import Typed from "typed.js";
 import { useNavigate } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -16,19 +16,18 @@ const HeroSection = () => {
       loop: true,
     });
 
-    // Cleanup function to destroy the Typed instance when the component unmounts
     return () => {
       typed.destroy();
     };
   }, []);
 
   return (
-    <div className="carousel w-full h-screen pb-5 mt-28">
+    <div className="carousel w-full h-screen min-h-[400px] max-w-screen">
       {/* Slide 1 */}
       <div id="slide1" className="carousel-item relative w-full">
         <img
-          src="https://i.ibb.co.com/7NvNkC2/image1.webp"
-          className="w-full h-full object-cover"
+          src="https://i.ibb.co/7NvNkC2/image1.webp"
+          className="w-full h-full object-cover md:object-fill"
           alt="Special winter collection"
         />
         <div className="absolute inset-0 flex items-center justify-start px-5 md:px-10 lg:px-20">
@@ -75,8 +74,8 @@ const HeroSection = () => {
       {/* Slide 2 */}
       <div id="slide2" className="carousel-item relative w-full">
         <img
-          src="https://i.ibb.co.com/mXjv7DP/sg2.webp"
-          className="w-full h-full object-cover"
+          src="https://i.ibb.co/mXjv7DP/sg2.webp"
+          className="w-full h-full object-cover md:object-fill"
           alt="Exclusive deals"
         />
         <div className="absolute inset-0 flex items-center justify-start px-5 md:px-10 lg:px-20">
@@ -113,8 +112,8 @@ const HeroSection = () => {
       {/* Slide 3 */}
       <div id="slide3" className="carousel-item relative w-full">
         <img
-          src="https://i.ibb.co.com/mXjv7DP/sg2.webp"
-          className="w-full h-full object-cover"
+          src="https://i.ibb.co/mXjv7DP/sg2.webp"
+          className="w-full h-full object-cover md:object-fill"
           alt="New Arrivals"
         />
         <div className="absolute inset-0 flex items-center justify-start px-5 md:px-10 lg:px-20">

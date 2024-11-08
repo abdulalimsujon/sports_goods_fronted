@@ -1,13 +1,14 @@
 import HeroSection from "./HeroSection";
 import LatestProducts from "./LatestProducts";
-import ContactUs from "./ContractUs";
+import TopRatedProduct from "./TopRatedProduct";
 
 const Home = () => {
   return (
     <div className=" pb-10 ">
       <HeroSection></HeroSection>
       <LatestProducts></LatestProducts>
-      <ContactUs></ContactUs>
+      {/* <ContactUs></ContactUs> */}
+      <TopRatedProduct />
     </div>
   );
 };

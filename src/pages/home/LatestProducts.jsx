@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/utilities/ProductCard";
 import { useGetLatestProductQuery } from "../../redux/api/api";
-import { categories } from "../allProducts/product.const";
+
 import { useDispatch } from "react-redux";
-import { setCategory } from "../../redux/features/filterSlice";
+
 import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
 const LatestProducts = () => {
@@ -21,52 +21,51 @@ const LatestProducts = () => {
 
   const products = data?.data;
 
-  const handleCategory = (category) => {
-    dispatch(setCategory(category));
-    navigate(`/get-products`);
-  };
+  // const handleCategory = (category) => {
+  //   dispatch(setCategory(category));
+  //   navigate(`/get-products`);
+  // };
 
   return (
-    <div className="max-w-[1580px] mx-auto mt-3">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Sidebar for categories */}
-        <div
-          className="bg-gray-200 md:col-span-1"
-          data-aos="fade-up-right"
-          data-aos-duration="1000"
-          data-aos-easing="ease-in-out"
-        >
-          <div className="text-xl border-b bg-amber-200 text-center p-4">
-            All Categories
-          </div>
-          <ul className="flex flex-col items-center space-y-4 mt-5 max-auto">
-            {categories.map((category) => (
-              <li
-                key={category}
-                onClick={() => handleCategory(category)}
-                className="cursor-pointer w-32  h-10 border border-amber-500 text-center hover:bg-amber-200"
-              >
-                {category}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Products Grid */}
-        <div
-          className="md:col-span-3"
-          data-aos="fade-up-left"
-          data-aos-duration="1000"
-          data-aos-easing="ease-in-out"
-          data-aos-once="false"
-        >
-          <div className="bg-gray-200 text-center p-4 mb-3">
-            <h1 className="text-2xl md:text-3xl">Latest Products</h1>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-            {products?.map((product) => (
-              <ProductCard key={product?._id} product={product} />
-            ))}
+    <div className="mt-3">
+      <div className="flex flex-col mx-auto">
+        <h1 className="text-center font-bold text-3xl">New Arrivals</h1>
+        <h3 className="text-center text-xl">Just in now</h3>
+        <h3 className="text-center text-xl">--//--</h3>
+      </div>
+      <div className="mx-auto  ">
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-2 mx-auto ">
+            {" "}
+            {/* Adjusted gap */}
+            {/* Column 1 (4 columns wide on large screens) */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-4 lg:ml-28 mx-auto lg:pl-20">
+              {products?.slice(0, 2).map((product) => (
+                <div key={product.id} className="rounded mb-2">
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+            {/* Column 2 (4 columns wide on large screens) */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-gray-200 w-full mb-14 my-auto sm:mx-auto">
+              <img src="https://i.ibb.co.com/7yFRkW7/sport29.webp" alt="" />
+              <div className="w-full h-32 hover:text-amber-500">
+                <h1 className="text-center">
+                  Beige Sports Bag Inlander Beige Sports
+                </h1>
+                <h1 className="text-center"> Bag$890</h1>
+              </div>
+            </div>
+            {/* Column 3 (4 columns wide on large screens) */}
+            <div className="col-span-1 md:col-span-1 lg:col-span-4 mx-auto lg:pr-44 ">
+              <div className="gap-2">
+                {products?.slice(3, 5).map((product) => (
+                  <div key={product.id} className="bg-white rounded mb-2">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

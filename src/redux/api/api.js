@@ -87,8 +87,6 @@ export const baseApi = createApi({
         // Create a new URLSearchParams object
         const params = new URLSearchParams();
 
-        console.log("inside the api", page, limit);
-
         if (category) {
           params.append("category", category);
         }

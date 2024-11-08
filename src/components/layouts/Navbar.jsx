@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
-import { setSearchTerm } from "../../redux/features/filterSlice";
+import { setCategory, setSearchTerm } from "../../redux/features/filterSlice";
+import { categories } from "../../pages/allProducts/product.const";
 
 const Navbar = () => {
   const cart = useSelector((state) => state.cart);
@@ -23,6 +24,11 @@ const Navbar = () => {
     navigate("/allProducts");
   };
 
+  const handleCategory = (category) => {
+    dispatch(setCategory(category)); // Set selected category in the filter state
+    navigate("/allProducts"); // Redirect to the product listing page
+  };
+
   const activeLinkStyle = "text-yellow-300";
   const linkStyle = "p-4 lg:p-0 hover:text-slate-500";
 
@@ -34,9 +40,20 @@ const Navbar = () => {
 
           {/* Category Dropdown */}
           <div className="relative group">
-            <span className="text-2xl text-white cursor-pointer">Category</span>
-            <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 hidden group-hover:block z-10">
-              <div className="max-w-sm sm:h-24 md:h-32 lg:h-96 bg-green-300 mx-auto"></div>
+            <div className="text-2xl text-white cursor-pointer">Category</div>
+            {/* Dropdown content */}
+            <div className="absolute left-0 mt-10 hidden group-hover:block bg-gray-300 shadow-lg rounded-lg w-[1000px] p-2 z-50">
+              <div className="grid grid-cols-3">
+                {categories.map((category) => (
+                  <div
+                    className="p-2 cursor-pointer hover:bg-gray-200 rounded"
+                    key={category}
+                    onClick={() => handleCategory(category)}
+                  >
+                    {category}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
