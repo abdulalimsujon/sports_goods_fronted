@@ -22,7 +22,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="carousel w-full h-screen min-h-[400px] max-w-screen">
+    <div className="carousel w-full h-screen min-h-[400px] max-w-screen  ">
       {/* Slide 1 */}
       <div id="slide1" className="carousel-item relative w-full">
         <img

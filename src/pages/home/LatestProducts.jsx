@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/utilities/ProductCard";
 import { useGetLatestProductQuery } from "../../redux/api/api";
-
-import { useDispatch } from "react-redux";
 
 import LoaderSpinner from "../../components/utilities/LoaderSpinner";
 
@@ -11,9 +8,6 @@ const LatestProducts = () => {
   const { data, isLoading } = useGetLatestProductQuery(null, {
     pollingInterval: 30000, // 30 seconds in milliseconds
   });
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   if (isLoading) {
     return <LoaderSpinner />;
@@ -47,20 +41,28 @@ const LatestProducts = () => {
               ))}
             </div>
             {/* Column 2 (4 columns wide on large screens) */}
-            <div className="col-span-1 md:col-span-1 lg:col-span-4 bg-gray-200 w-full mb-14 my-auto sm:mx-auto">
-              <img src="https://i.ibb.co.com/7yFRkW7/sport29.webp" alt="" />
+            <div className="relative col-span-1 md:col-span-1 lg:col-span-4 bg-gray-200 w-full mb-14 my-auto sm:mx-auto">
+              {/* Positioning the SALE div above the image */}
+              <div className="absolute  bg-opacity-75 bg-amber-300 text-gray-700 text-center w-[100px] h-[100px] rounded-full">
+                <h1 className="pt-10">SALE</h1>
+              </div>
+              <img
+                className="w-full h-auto" // Ensuring image is responsive
+                src="https://i.ibb.co.com/7yFRkW7/sport29.webp"
+                alt="Sports Bag"
+              />
               <div className="w-full h-32 hover:text-amber-500">
                 <h1 className="text-center">
                   Beige Sports Bag Inlander Beige Sports
                 </h1>
-                <h1 className="text-center"> Bag$890</h1>
+                <h1 className="text-center">Bag $890</h1>
               </div>
             </div>
             {/* Column 3 (4 columns wide on large screens) */}
             <div className="col-span-1 md:col-span-1 lg:col-span-4 mx-auto lg:pr-44 ">
               <div className="gap-2">
                 {products?.slice(3, 5).map((product) => (
-                  <div key={product.id} className="bg-white rounded mb-2">
+                  <div key={product._id} className="bg-white rounded mb-2">
                     <ProductCard product={product} />
                   </div>
                 ))}

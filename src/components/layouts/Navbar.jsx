@@ -1,20 +1,25 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CgShoppingCart } from "react-icons/cg";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
 import { setCategory, setSearchTerm } from "../../redux/features/filterSlice";
 import { categories } from "../../pages/allProducts/product.const";
 
 const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const toggleCategoryMenu = () => {
+    setCategoryMenuOpen(!categoryMenuOpen);
   };
 
   const handleSearchTerm = (e) => {
@@ -25,37 +30,63 @@ const Navbar = () => {
   };
 
   const handleCategory = (category) => {
-    dispatch(setCategory(category)); // Set selected category in the filter state
-    navigate("/allProducts"); // Redirect to the product listing page
+    dispatch(setCategory(category));
+    navigate("/allProducts");
   };
 
   const activeLinkStyle = "text-yellow-300";
   const linkStyle = "p-4 lg:p-0 hover:text-slate-500";
 
   return (
-    <div className="pb-16 lg:w-full h-20 bg-amber-500">
-      <header className="py-3">
+    <div className="w-full bg-amber-500 lg:h-20 h-28">
+      <header>
         <nav className="h-full max-w-[1620px] px-4 sm:px-6 md:px-8 mx-auto flex items-center justify-between">
           <span className="text-2xl text-white">Sujon Sports Club</span>
 
           {/* Category Dropdown */}
-          <div className="relative h-full w-48  group text-xl">
-            <h1 className="p-2 text-center cursor-pointer text-xl text-white mb-3">
-              Category
-            </h1>
-            <ul className="absolute left-0 w-96 bg-gray-50 shadow-lg hidden group-hover:block z-[50] ">
-              <div className="grid grid-cols-3">
-                {categories.map((category) => (
-                  <li
-                    key={category}
-                    onClick={() => handleCategory(category)}
-                    className="px-4 py-2 hover:text-amber-300 cursor-pointer"
-                  >
-                    {category}
-                  </li>
-                ))}
-              </div>
-            </ul>
+          <div className="relative h-full text-xl">
+            {/* Show dropdown on hover for larger screens */}
+            <div className="hidden lg:block group relative cursor-pointer">
+              <h1 className="p-2 text-center text-xl text-white">Category</h1>
+              <ul className="absolute left-0 w-48 sm:w-64 md:w-80 lg:w-96 bg-gray-50 shadow-lg hidden group-hover:block z-[50]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                  {categories.map((category) => (
+                    <li
+                      key={category}
+                      onClick={() => handleCategory(category)}
+                      className="px-4 py-2 hover:text-amber-300 cursor-pointer"
+                    >
+                      {category}
+                    </li>
+                  ))}
+                </div>
+              </ul>
+            </div>
+
+            {/* Toggle button for small screens */}
+            <div className="lg:hidden">
+              <button
+                onClick={toggleCategoryMenu}
+                className="p-2 text-center cursor-pointer text-xl text-white"
+              >
+                Category
+              </button>
+              {categoryMenuOpen && (
+                <ul className="absolute left-0 w-48 sm:w-64 md:w-80 lg:w-96 bg-gray-50 shadow-lg z-[50]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+                    {categories.map((category) => (
+                      <li
+                        key={category}
+                        onClick={() => handleCategory(category)}
+                        className="px-4 py-2 hover:text-amber-300 cursor-pointer"
+                      >
+                        {category}
+                      </li>
+                    ))}
+                  </div>
+                </ul>
+              )}
+            </div>
           </div>
 
           <div className="lg:hidden">
@@ -66,13 +97,13 @@ const Navbar = () => {
 
           <form
             onSubmit={handleSearchTerm}
-            className="hidden md:flex items-center"
+            className="hidden md:flex items-center sm:my-3 "
           >
             <input
               type="text"
               name="product"
               placeholder="Find Sports Equipment"
-              className="p-2 md:p-3 w-full md:w-64 lg:w-80 focus:outline-none"
+              className="p-2 md:p-3 w-full md:w-64 lg:w-80 focus:outline-none sm:border"
             />
             <button
               type="submit"
